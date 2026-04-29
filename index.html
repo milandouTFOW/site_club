@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Club Informatique –Institut Bantou de Technologie</title>
+<link
+href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,40
+0&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+/* ───CSS Variables ───────────────────────────────────────
+────*/
+:root {
+--red: #8B0013;
+--red-dark: #660011;
+--red-light: #A50015;
+--accent: #D62636;
+--bg: #FFFFFF;
+--bg2: #F5F5F5;
+--bg3: #EBEBEB;
+--surface: #FFFFFF;
+--border: #E0E0E0;
+--text: #111111;
+--text2: #444444;
+--text3: #888888;
+--card-shadow: 0 4px 24px rgba(0,0,0,0.08);
+--nav-h: 68px;
+--radius: 12px;
+--transition: 0.3s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"] {
+--bg: #0F0F0F;
+--bg2: #1A1A1A;
+--bg3: #2A2A2A;
+--surface: #1E1E1E;
+--border: #333333;
+--text: #F0F0F0;
+--text2: #BBBBBB;
+--text3: #777777;
+--card-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+/* ───Reset & Base ────────────────────────────────────────
+────*/
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+background: var(--bg);
+color: var(--text);
+transition: background var(--transition), color var(--transition);
+overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; border: none; background: none; font: inherit; }
+/* ───Scrollbar ──────────────────────────────────────────
+─────*/
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--red); border-radius: 3px; }
+/* ───NAVBAR ──────────────────────────────────────────
+────────*/
+#navbar {
+position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+height: var(--nav-h);
+background: var(--red);
+display: flex; align-items: center; justify-content: space-between;
+padding: 0 2rem;
+border-bottom-left-radius: 28px;
+border-bottom-right-radius: 28px;
+box-shadow: 0 2px 20px rgba(192,0,29,0.4);
+}
+.nav-logo {
+display: flex; align-items: center; gap: 17px;
+}
+.nav-logo-icon {
+width: 40px; height: 40px;
+background: rgba(255,255,255,0.15);
+border-radius: 8px;
+display: flex; align-items: center; justify-content: center;
+font-size: 20px;
+}
+.nav-logo-text { color: #fff; }
+.nav-logo-text strong {
+display: block; font-size: 1rem; font-weight: 800; letter-spacing: 0.5px;
+}
+.nav-logo-text span {
+font-size: 0.7rem; opacity: 0.8; font-family: 'Space Mono', monospace;
+}
+.nav-links {
+display: flex; align-items: center; gap: 4px;
+list-style: none;
+}
+.nav-links a {
+color: rgba(255,255,255,0.85);
+padding: 6px 14px;
+border-radius: 6px;
+font-size: 0.85rem; font-weight: 600;
+transition: background var(--transition), color var(--transition);
+letter-spacing: 0.3px;
+}
+.nav-links a:hover, .nav-links a.active {
+background: rgba(255,255,255,0.2);
+color: #fff;
+}
+.nav-right { display: flex; align-items: center; gap: 10px; }
+/* Dark mode toggle */
+#theme-toggle {
+width: 44px; height: 24px;
+background: rgba(255,255,255,0.2);
+border-radius: 12px;
+position: relative;
+border: 1px solid rgba(255,255,255,0.3);
+transition: background var(--transition);
+}
+#theme-toggle::after {
+content: '';
+position: absolute;
+top: 2px; left: 2px;
+width: 18px; height: 18px;
+background: #fff;
+border-radius: 50%;
+transition: transform var(--transition);
+}
+[data-theme="dark"] #theme-toggle::after { transform: translateX(20px); }
+.theme-icon {
+position: absolute; top: 50%; transform: translateY(-50%);
+font-size: 10px; pointer-event:none;
+}
+.theme-icon.sun { left: 5px; }
+.theme-icon.moon { right: 4px; }
+/* Hamburger */
+#hamburger {
+display: none; flex-direction: column; gap: 5px;
+width: 32px; padding: 4px;
+}
+#hamburger span {
+display: block; height: 2px;
+background: #fff; border-radius: 2px;
+transition: transform var(--transition), opacity var(--transition);
+}
+/* ───HERO ────────────────────────────────────────────
+────────*/
+#hero {
+min-height: 100vh;
+background: linear-gradient(rgba(15,15,15,0.45), rgba(15,15,15,0.45)), url('2_background.jpg') center/cover no-repeat;
+padding-top: var(--nav-h);
+display: flex; align-items: center; justify-content: center;
+position: relative; overflow: hidden;
+}
+.hero-grid {
+position: absolute; inset: 0; z-index: 0;
+background-image:
+linear-gradient(var(--border) 1px, transparent 1px),
+linear-gradient(90deg, var(--border) 1px, transparent 1px);
+background-size: 48px 48px;
+opacity: 0.35;
+}
+.hero-accent {
+position: absolute; top: 80px; right: -60px;
+width: 440px; height: 440px;
+background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+border-radius: 50%; pointer-events: none;
+}
+.hero-content {
+position: relative; z-index: 1;
+max-width: 780px; text-align: center;
+padding: 2rem;
+color: #fff;
+}
+.hero-sub {
+font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.7;
+max-width: 560px; margin: 0 auto 2.5rem;
+font-family: 'Space Mono', monospace;
+animation: fadeUp 0.6s ease 0.2s both;
+}
+.hero-badge {
+display: inline-flex; align-items: center; gap: 8px;
+background: rgba(192,0,29,0.1);
+border: 1px solid rgba(192,0,29,0.25);
+color: var(--red);
+padding: 6px 16px;
+border-radius: 999px;
+font-size: 0.8rem; font-weight: 700;
+letter-spacing: 1px; text-transform: uppercase;
+margin-bottom: 1.5rem;
+animation: fadeUp 0.6s ease both;
+}
+.hero-badge::before { content: '●'; font-size: 8px; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero-title {
+font-size: clamp(2.5rem, 6vw, 4.2rem);
+font-weight: 800;
+line-height: 1.1;
+letter-spacing: -1px;
+margin-bottom: 1.2rem;
+animation: fadeUp 0.6s ease 0.1s both;
+}
+.hero-title span { color: var(--red); }
+.hero-sub {
+font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.7;
+max-width: 560px; margin: 0 auto 2.5rem;
+font-family: 'Space Mono', monospace;
+animation: fadeUp 0.6s ease 0.2s both;
+}
+.hero-cta {
+display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+animation: fadeUp 0.6s ease 0.3s both;
+}
+.btn-primary {
+background: var(--red); color: #fff;
+padding: 13px 28px; border-radius: 8px;
+font-weight: 700; font-size: 0.95rem;
+transition: background var(--transition), transform 0.2s;
+letter-spacing: 0.3px;
+}
+.btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); }
+.btn-outline {
+background: rgba(255,255,255,0.95); color: var(--red);
+border: 2px solid #fff;
+padding: 15px 36px; border-radius: 12px;
+font-weight: 800; font-size: 0.98rem;
+transition: all var(--transition);
+box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+letter-spacing: 0.5px;
+}
+.btn-outline:hover {
+background: #fff;
+border-color: var(--red);
+color: var(--red);
+transform: translateY(-4px);
+box-shadow: 0 20px 48px rgba(139,0,19,0.25);
+}
+/* Stats band */
+.hero-stats {
+display: flex; justify-content: center; gap: 3rem;
+margin-top: 4rem;
+padding-top: 2.5rem;
+border-top: 1px solid var(--border);
+animation: fadeUp 0.6s ease 0.4s both;
+}
+.stat-item { text-align: center; }
+.stat-num {
+font-size: 2rem; font-weight: 800; color: var(--red);
+font-family: 'Space Mono', monospace;
+}
+.stat-label { font-size: 0.8rem;color: var(--text3);text-transform: uppercase;
+letter-spacing: 0.5px; }
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(24px); }
+to { opacity: 1; transform: translateY(0); }
+}
+/* ───SECTIONS COMMON ───────────────────────────────────
+──────*/
+section { padding: 80px 2rem; }
+.section-label {
+display: inline-block;
+font-family: 'Space Mono', monospace;
+font-size: 0.72rem; font-weight: 700;
+text-transform: uppercase; letter-spacing: 2px;
+color: var(--red); margin-bottom: 0.6rem;
+}
+.section-title {
+font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+font-weight: 800; line-height: 1.15;
+margin-bottom: 0.8rem; letter-spacing: -0.5px;
+}
+.section-sub {
+color: var(--text2); font-size: 0.97rem; line-height: 1.7;
+max-width: 560px; margin-bottom: 2.5rem;
+}
+.container { max-width: 1160px; margin: 0 auto; }
+/* ───ÀPROPOS ─────────────────────────────────────────
+───────*/
+#about {
+background: linear-gradient(135deg, rgba(139,0,19,0.04), rgba(139,0,19,0.02));
+}
+.about-grid {
+display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center;
+max-width: 1160px; margin: 0 auto;
+}
+.about-visual {
+background: linear-gradient(145deg, rgba(139,0,19,0.1), rgba(139,0,19,0.05));
+border-radius: 28px;
+height: 420px;
+display: flex; align-items: center; justify-content: center;
+position: relative; overflow: hidden;
+border: 1px solid rgba(139,0,19,0.15);
+box-shadow: 0 32px 80px rgba(139,0,19,0.08);
+animation: subtleFloat 3.5s ease-in-out infinite;
+}
+@keyframes subtleFloat {
+0%, 100% { transform: translateY(0px); }
+50% { transform: translateY(-12px); }
+}
+.about-visual-emoji { font-size: 7rem; filter: drop-shadow(0 8px 24px rgba(139,0,19,0.15)); }
+.about-visual-tag {
+position: absolute; bottom: 20px; left: 20px;
+background: linear-gradient(135deg, var(--red), var(--red-dark));
+color: #fff;
+font-family: 'Space Mono', monospace;
+font-size: 0.75rem; padding: 6px 14px; border-radius: 8px;
+font-weight: 700; letter-spacing: 0.5px;
+box-shadow: 0 8px 16px rgba(139,0,19,0.25);
+}
+.about-values { display: flex; flex-direction: column; gap: 18px; margin-top: 2rem; }
+.value-item {
+display: flex; gap: 16px; align-items: flex-start;
+padding: 20px 24px; background: var(--surface);
+border-radius: 20px; border: 1px solid rgba(139,0,19,0.1);
+transition: all var(--transition);
+box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+}
+.value-item:hover {
+border-color: var(--red);
+transform: translateX(8px);
+box-shadow: 0 20px 48px rgba(139,0,19,0.15);
+}
+.value-icon {
+width: 44px; height: 44px; flex-shrink: 0;
+background: linear-gradient(135deg, rgba(139,0,19,0.15), rgba(139,0,19,0.08)); border-radius: 14px;
+display: flex; align-items: center; justify-content: center;
+font-size: 22px;
+}
+.value-item h4 { font-size: 0.98rem; font-weight: 700; margin-bottom: 4px; }
+.value-item p { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+/* ───BLOG ────────────────────────────────────────────
+────────*/
+#blog { background: var(--bg); }
+.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.blog-card {
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius);
+overflow: hidden;
+transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+display: flex; flex-direction: column;
+}
+.blog-card:hover {
+transform: translateY(-6px);
+box-shadow: var(--card-shadow);
+border-color: var(--red);
+}
+.blog-thumb {
+height: 180px;
+background: var(--bg3);
+display: flex; align-items: center; justify-content: center;
+font-size: 3.5rem;
+position: relative;
+}
+.blog-tag {
+position: absolute; top: 12px; left: 12px;
+background: var(--red); color: #fff;
+font-size: 0.68rem; font-weight: 700;
+padding: 3px 8px; border-radius: 4px;
+text-transform: uppercase; letter-spacing: 0.5px;
+}
+.blog-body { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.blog-meta {
+display: flex; gap: 12px; align-items: center;
+font-size: 0.75rem; color: var(--text3);
+font-family: 'Space Mono', monospace;
+}
+.blog-card h3 { font-size: 1rem; font-weight: 700; line-height: 1.4; }
+.blog-card p { font-size: 0.85rem; color: var(--text2); line-height: 1.6; flex: 1; }
+.blog-link {
+font-size: 0.82rem; color: var(--red); font-weight: 700;
+display: inline-flex; align-items: center; gap: 4px;
+margin-top: 8px;
+}
+.blog-link:hover { gap: 8px; }
+.add-btn {
+margin-top: 2rem;
+display: flex; align-items: center; gap: 10px;
+background: transparent; border: 2px dashed var(--border);
+width: 100%; padding: 20px; border-radius: var(--radius);
+color: var(--text3); font-size: 0.9rem; font-weight: 600;
+transition: border-color var(--transition), color var(--transition);
+justify-content: center;
+}
+.add-btn:hover { border-color: var(--red); color: var(--red); }
+/* ───TUTORIELS ─────────────────────────────────────────
+──────*/
+#tutos { background: var(--bg2); }
+.tutos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.tuto-card {
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius);
+padding: 24px;
+display: flex; gap: 18px; align-items: flex-start;
+transition: transform 0.2s, border-color 0.2s;
+cursor: pointer;
+}
+.tuto-card:hover { transform: translateX(4px); border-color: var(--red); }
+.tuto-icon {
+width: 52px; height: 52px; flex-shrink: 0;
+border-radius: 12px;
+display: flex; align-items: center; justify-content: center;
+font-size: 24px; background: var(--bg3);
+}
+.tuto-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+.tuto-card p { font-size: 0.82rem; color: var(--text2); line-height: 1.5; }
+.tuto-pills { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.pill {
+font-size: 0.68rem;font-weight: 700;text-transform: uppercase;letter-spacing:
+0.5px;
+padding: 3px 8px; border-radius: 4px;
+}
+.pill-red { background: rgba(192,0,29,0.12); color: var(--red); }
+.pill-gray { background: var(--bg3); color: var(--text3); }
+/* ───MÉDIATHÈQUE ──────────────────────────────────────
+───────*/
+#media { background: var(--bg); }
+.media-toolbar {
+display: flex; gap: 10px; margin-bottom: 2rem; flex-wrap: wrap;
+}
+.media-filter-btn {
+padding: 8px 18px; border-radius: 6px;
+font-size: 0.82rem; font-weight: 700;
+border: 2px solid var(--border);
+color: var(--text2);
+transition: all var(--transition);
+}
+.media-filter-btn.active,
+.media-filter-btn:hover {
+border-color: var(--red); background: var(--red); color: #fff;
+}
+.media-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.media-card {
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius);
+overflow: hidden;
+transition: transform 0.2s, box-shadow 0.2s;
+}
+.media-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow); }
+.media-cover {
+height: 160px; background: var(--bg3);
+display: flex; align-items: center; justify-content: center;
+font-size: 3rem; border-bottom: 1px solid var(--border);
+}
+.media-info { padding: 14px; }
+.media-info h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; line-height:
+1.35; }
+.media-info span { font-size: 0.75rem; color: var(--text3); font-family: 'Space Mono',
+monospace; }
+.media-dl {
+display: flex; align-items: center; justify-content: space-between;
+margin-top: 10px;
+}
+.media-dl button {
+background: var(--red); color: #fff;
+padding: 5px 12px; border-radius: 5px;
+font-size: 0.75rem; font-weight: 700;
+transition: background var(--transition);
+}
+.media-dl button:hover { background: var(--red-dark); }
+.upload-box {
+margin-top: 2rem;
+background: var(--bg2);
+border: 2px dashed var(--border);
+border-radius: var(--radius);
+padding: 40px;
+text-align: center;
+transition: border-color var(--transition);
+}
+.upload-box:hover { border-color: var(--red); }
+.upload-box .upload-icon { font-size: 3rem; margin-bottom: 12px; }
+.upload-box p { color: var(--text2); font-size: 0.9rem; margin-bottom: 16px; }
+/* ───CONTACT ──────────────────────────────────────────
+───────*/
+#contact {
+background: linear-gradient(180deg, rgba(247,248,250,1), rgba(238,241,246,1));
+}
+.contact-grid {
+display: grid; grid-template-columns: 1fr 1.3fr; gap: 3rem; align-items: start;
+max-width: 1100px; margin: 0 auto;
+background: rgba(255,255,255,0.95);
+padding: 2.5rem;
+border-radius: 32px;
+box-shadow: 0 28px 90px rgba(0, 0, 0, 0.08);
+}
+.contact-info { display: flex; flex-direction: column; gap: 22px; }
+.contact-card {
+background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(247,248,250,0.95));
+border: none;
+border-radius: 24px;
+padding: 24px;
+display: flex; gap: 16px; align-items: flex-start;
+transition: transform var(--transition), box-shadow var(--transition);
+box-shadow: 0 18px 40px rgba(0,0,0,0.06);
+}
+.contact-card:hover {
+transform: translateY(-3px);
+box-shadow: 0 24px 56px rgba(0,0,0,0.12);
+}
+.contact-card-icon {
+width: 50px; height: 50px; flex-shrink: 0;
+background: rgba(192,0,29,0.14); border-radius: 16px;
+display: flex; align-items: center; justify-content: center;
+font-size: 20px;
+}
+.contact-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+.contact-card p { font-size: 0.9rem; color: var(--text2); line-height: 1.7; }
+/* Form */
+.contact-form {
+background: var(--surface);
+border-radius: 28px;
+padding: 32px;
+gap: 20px;
+box-shadow: 0 24px 64px rgba(0,0,0,0.06);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field label { font-size: 0.85rem; font-weight: 700; color: var(--text2); }
+.field input, .field textarea, .field select {
+background: #fff;
+border: 1px solid rgba(17,17,17,0.08);
+border-radius: 18px;
+padding: 16px 18px;
+font: inherit; font-size: 0.95rem;
+color: var(--text);
+transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+outline: none;
+box-shadow: inset 0 1px 3px rgba(0,0,0,0.04);
+}
+.field select {
+appearance: none;
+-webkit-appearance: none;
+-moz-appearance: none;
+background-image: linear-gradient(45deg, transparent 50%, var(--text2) 50%), linear-gradient(135deg, var(--text2) 50%, transparent 50%);
+background-position: right 18px center, right 12px center;
+background-size: 8px 8px;
+background-repeat: no-repeat;
+padding-right: 44px;
+min-height: 52px;
+}
+.field select::-ms-expand {
+display: none;
+}
+.field input:focus, .field textarea:focus, .field select:focus {
+border-color: rgba(192,0,29,0.4);
+background: #fff;
+box-shadow: 0 0 0 4px rgba(255, 56, 78, 0.08);
+}
+.field textarea { resize: vertical; min-height: 160px; }
+/* ───FOOTER ───────────────────────────────────────────
+───────*/
+footer {
+background: var(--red);
+color: rgba(255,255,255,0.9);
+padding: 3rem 2rem;
+}
+.footer-inner {
+max-width: 1160px; margin: 0 auto;
+display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem;
+padding-bottom: 2rem;
+border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.footer-brand h3 { color: #fff; font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; }
+.footer-brand p { font-size: 0.85rem; opacity: 0.8; line-height: 1.6; }
+.footer-col h4 { color: #fff; font-size: 0.88rem; font-weight: 700; margin-bottom: 14px; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-col ul li a { font-size: 0.83rem;opacity: 0.75;transition: opacity
+var(--transition); }
+.footer-col ul li a:hover { opacity: 1; }
+.social-links {
+display: flex; gap: 12px; margin-top: 1rem;
+}
+.social-link {
+width: 40px; height: 40px;
+border-radius: 50%;
+background: rgba(255,255,255,0.15);
+display: flex; align-items: center; justify-content: center;
+font-size: 20px;
+transition: all var(--transition);
+text-decoration: none;
+}
+.social-link:hover {
+background: rgba(255,255,255,0.3);
+transform: translateY(-3px);
+}
+.external-link {
+display: inline-block;
+padding: 8px 16px;
+background: rgba(255,255,255,0.15);
+border-radius: 8px;
+font-size: 0.85rem;
+font-weight: 700;
+transition: all var(--transition);
+margin-top: 12px;
+}
+.external-link:hover {
+background: rgba(255,255,255,0.25);
+transform: translateY(-2px);
+}
+.footer-bottom {
+max-width: 1160px; margin: 1.5rem auto 0;
+display: flex; justify-content: space-between; align-items: center;
+font-size: 0.78rem; opacity: 0.7;
+}
+/* ───MODAL ───────────────────────────────────────────
+────────*/
+.modal-overlay {
+position: fixed; inset: 0; z-index: 2000;
+background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+display: flex; align-items: center; justify-content: center;
+opacity: 0; pointer-events: none;
+transition: opacity var(--transition);
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: 16px;
+padding: 2rem;
+width: 90%; max-width: 520px;
+transform: translateY(20px);
+transition: transform var(--transition);
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-header { display: flex;justify-content: space-between;align-items: center;
+margin-bottom: 1.5rem; }
+.modal-header h3 { font-size: 1.1rem; font-weight: 800; }
+.modal-close { font-size: 1.4rem; color: var(--text3); transition: color var(--transition); }
+.modal-close { font-size: 1.4rem; color: var(--text3); transition: color var(--transition); }
+.modal-close:hover { color: var(--red); }
+.modal-body { display: flex; flex-direction: column; gap: 14px; }
+/* ───ACTIVE NAV SCROLL ───────────────────────────────────
+─────*/
+.nav-mobile {
+display: none; flex-direction: column;
+position: fixed; top: var(--nav-h); left: 0; right: 0;
+background: var(--red-dark);
+padding: 1rem 1.5rem;
+z-index: 999;
+gap: 8px;
+}
+.nav-mobile.open { display: flex; }
+.nav-mobile a {
+color: rgba(255,255,255,0.85);
+padding: 10px 14px; border-radius: 6px;
+font-weight: 600; font-size: 0.9rem;
+}
+.nav-mobile a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+/* ───RESPONSIVE ────────────────────────────────────────
+───────*/
+@media (max-width: 900px) {
+.nav-links { display: none; }
+#hamburger { display: flex; }
+.about-grid, .contact-grid { grid-template-columns: 1fr; }
+.blog-grid { grid-template-columns: repeat(2, 1fr); }
+.media-grid { grid-template-columns: repeat(2, 1fr); }
+.tutos-grid { grid-template-columns: 1fr; }
+.footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+.blog-grid, .media-grid { grid-template-columns: 1fr; }
+.form-row { grid-template-columns: 1fr; }
+.footer-inner { grid-template-columns: 1fr; }
+.hero-stats { gap: 1.5rem; }
+.footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+}
+</style>
+</head>
+<body>
+<!-- ═══NAVBAR ═══════════════════════════════════════════
+══════-->
+<nav id="navbar">
+<div class="nav-logo">
+<div class="nav-logo-icon">💻</div>
+<div class="nav-logo-text">
+<strong>Club Info · IBanT</strong>
+<span>Institut Bantou de Technologie</span>
+</div>
+</div>
+<ul class="nav-links">
+<li><a href="#hero" class="active">Accueil</a></li>
+<li><a href="#about">Àpropos</a></li>
+<li><a href="#blog">Blog</a></li>
+<li><a href="#tutos">Tutoriels</a></li>
+<li><a href="#media">Médiathèque</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+<div class="nav-right">
+<button id="theme-toggle" aria-label="Changer de thème">
+<span class="theme-icon sun">☀</span>
+<span class="theme-icon moon">🌙</span>
+</button>
+<button id="hamburger" aria-label="Menu">
+<span></span><span></span><span></span>
+</button>
+</div>
+</nav>
+<!-- Mobile menu -->
+<div class="nav-mobile" id="nav-mobile">
+<a href="#hero">Accueil</a>
+<a href="#about">Àpropos</a>
+<a href="#blog">Blog</a>
+<a href="#tutos">Tutoriels</a>
+<a href="#media">Médiathèque</a>
+<a href="#contact">Contact</a>
+</div>
+<!-- ═══HERO ═════════════════════════════════════════════
+═══════-->
+<section id="hero">
+<div class="hero-grid"></div>
+<div class="hero-accent"></div>
+<div class="hero-content">
+<div class="hero-badge">Club Actif · Fondéen 2018</div>
+<h1 class="hero-title">
+Le Club<br />
+<span>Informatique</span><br />
+de l'IBT
+</h1>
+<p class="hero-sub">
+Apprendre, Créer, Innover —ensemble.<br />
+Rejoins la communautétech de l'Institut Bantou de Technologie.
+</p>
+<div class="hero-cta">
+<a href="#about" class="btn-primary">Découvrir le club</a>
+<a href="#contact" class="btn-outline">Nous rejoindre</a>
+</div>
+<div class="hero-stats">
+<div class="stat-item">
+<div class="stat-num">120+</div>
+<div class="stat-label">Membres</div>
+</div>
+<div class="stat-item">
+<div class="stat-num">48</div>
+<div class="stat-label">Tutoriels</div>
+</div>
+<div class="stat-item">
+<div class="stat-num">35</div>
+<div class="stat-label">Ressources</div>
+</div>
+<div class="stat-item">
+<div class="stat-num">6</div>
+<div class="stat-label">Ans d'existence</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ═══ÀPROPOS ══════════════════════════════════════════
+══════-->
+<section id="about">
+<div class="container">
+<div class="about-grid">
+<div>
+<div class="section-label"> Àpropos</div>
+<h2 class="section-title">Notre club, notre mission</h2>
+<p class="section-sub">
+Le Club Informatique de l'IBT rassemble les étudiants passionnés par la
+technologie,
+le développement logiciel, la cybersécuritéet l'innovation numérique.
+</p>
+<div class="about-values">
+<div class="value-item">
+<div class="value-icon">🚀</div>
+<div>
+<h4>Innovation</h4>
+<p>Nous explorons les dernières technologies et encourageons la
+créativitédans chaque projet.</p>
+</div>
+</div>
+<div class="value-item">
+<div class="value-icon">🤝</div>
+<div>
+<h4>Collaboration</h4>
+<p>L'entraide entre membres est au cœur de notre culture. Ensemble, on
+va plus loin.</p>
+</div>
+</div>
+<div class="value-item">
+<div class="value-icon">📚</div>
+<div>
+<h4>Formation continue</h4>
+<p>Ateliers, tutoriels et ressources partagées pour que chacun
+progresse àson rythme.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="about-visual">
+<span class="about-visual-emoji">🖥</span>
+<div class="about-visual-tag">IBT · Club Info</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ═══BLOG ═════════════════════════════════════════════
+═══════-->
+<section id="blog">
+<div class="container">
+<div class="section-label"> Blog</div>
+<h2 class="section-title">Articles & Actualités</h2>
+<p class="section-sub">Les dernières publications de nos membres sur la tech, le
+développement et bien plus.</p>
+<div class="blog-grid" id="blog-grid">
+<!-- Blog cards are generated by JS -->
+</div>
+<button class="add-btn" onclick="openModal('blog-modal')">
+＋Ajouter un article
+</button>
+</div>
+</section>
+<!-- ═══TUTORIELS ══════════════════════════════════════════
+═════-->
+<section id="tutos">
+<div class="container">
+<div class="section-label"> Tutoriels</div>
+<h2 class="section-title">Apprends avec nous</h2>
+<p class="section-sub">Des guides pratiques rédigés par les membres du club pour
+maîtriser les outils du développeur moderne.</p>
+<div class="tutos-grid" id="tutos-grid">
+<!-- Tuto cards generated by JS -->
+</div>
+<button class="add-btn" style="margin-top:1.5rem"
+onclick="openModal('tuto-modal')">
+＋Ajouter un tutoriel
+</button>
+</div>
+</section>
+<!-- ═══MÉDIATHÈQUE ═══════════════════════════════════════
+══════-->
+<section id="media">
+<div class="container">
+<div class="section-label"> Médiathèque</div>
+<h2 class="section-title">Livres & Ressources</h2>
+<p class="section-sub">Télécharge des livres, supports de cours et ressources
+numériques mis àdisposition par le club.</p>
+<div class="media-toolbar" id="media-filters">
+<button class="media-filter-btn active" data-filter="all">Tous</button>
+<button class="media-filter-btn" data-filter="livre">Livres</button>
+<button class="media-filter-btn" data-filter="cours">Cours</button>
+<button class="media-filter-btn" data-filter="outil">Outils</button>
+</div>
+<div class="media-grid" id="media-grid">
+<!-- Media cards generated by JS -->
+</div>
+<div class="upload-box" onclick="openModal('upload-modal')">
+<div class="upload-icon">📤</div>
+<p>Dépose un livre ou une ressource pour la communauté</p>
+<button class="btn-primary"
+onclick="event.stopPropagation();openModal('upload-modal')">Déposer un
+fichier</button>
+</div>
+</div>
+</section>
+<!-- ═══CONTACT ══════════════════════════════════════════
+════════-->
+<section id="contact">
+<div class="container">
+<div class="section-label"> Contact</div>
+<h2 class="section-title">Nous contacter</h2>
+<p class="section-sub">Une question, une idée, ou envie de rejoindre le club ?
+Écris-nous !</p>
+<div class="contact-grid">
+<div class="contact-info">
+<div class="contact-card">
+<div class="contact-card-icon">📍</div>
+<div>
+<h4>Adresse</h4>
+<p>Institut Bantou de Technologie<br />brazzaville, république du congo <br>18 rue Ampère Bacongo</p>
+</div>
+</div>
+<div class="contact-card">
+<div class="contact-card-icon">📧</div>
+<div>
+<h4>Email</h4>
+<p>clubinfo@ibt-edu.cg</p>
+</div>
+</div>
+<div class="contact-card">
+<div class="contact-card-icon">📱</div>
+<div>
+<h4>WhatsApp</h4>
+<p>+242 06 543 63 81</p>
+</div>
+</div>
+<div class="contact-card">
+<div class="contact-card-icon">🕐</div>
+<div>
+<h4>Réunions</h4>
+<p>lundi :15h30 à 16h30<br/>Salle informatique B2</p>
+</div>
+</div>
+</div>
+<form class="contact-form" onsubmit="handleContactForm(event)">
+<div class="form-row">
+<div class="field">
+<label>Prénom</label>
+<input type="text" placeholder="Jean" required />
+</div>
+<div class="field">
+<label>Nom</label>
+<input type="text" placeholder="Mukendi" required />
+</div>
+</div>
+<div class="field">
+<label>Email</label>
+<input type="email" placeholder="jean.mukendi@ibt-edu.cd" required />
+</div>
+<div class="field">
+<label>Sujet</label>
+<select>
+<option>Adhésion au club</option>
+<option>Proposition de tutoriel</option>
+<option>Partenariat</option>
+<option>Autre</option>
+</select>
+</div>
+<div class="field">
+<label>Message</label>
+<textarea placeholder="Ton message ici..." required></textarea>
+</div>
+<button type="submit" class="btn-primary">Envoyer le message →</button>
+</form>
+</div>
+</div>
+</section>
+<!-- ═══FOOTER ════════════════════════════════════════════
+══════-->
+<footer>
+<div class="footer-inner">
+<div class="footer-brand">
+<h3>💻Club Informatique · IBT</h3>
+<p>La communautétech de l'Institut Bantou de Technologie. Apprendre, créer et
+innover ensemble depuis 2018.</p>
+</div>
+<div class="footer-col">
+<h4>Navigation</h4>
+<ul>
+<li><a href="index.html#hero">Accueil</a></li>
+<li><a href="index.html#about">Àpropos</a></li>
+<li><a href="index.html#blog">Blog</a></li>
+<li><a href="index.html#tutos">Tutoriels</a></li>
+<li><a href="index.html#media">Médiathèque</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>Ressources</h4>
+<ul>
+<li><a href="join">Rejoindre le club</a></li>
+<li><a href="calendar">Calendrier</a></li>
+<li><a href="faq">FAQ</a></li>
+<li><a href="contact">Contact</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>Suivez-nous</h4>
+<p style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 8px;">Connectez-vous sur les réseaux</p>
+<div class="social-links">
+<!-- WhatsApp - Modifier l'URL avec votre numéro de téléphone -->
+<a href="https://chat.whatsapp.com/GvXeU9UBloHK7gfle0OTxi" target="_blank" rel="noopener noreferrer" class="social-link" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+<!-- Instagram - Modifier l'URL avec votre handle Instagram -->
+<a href="https://instagram.com/votre_handle_instagram" target="_blank" rel="noopener noreferrer" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+</div>
+<a href="https://share.google/1hGeMJBTAdZcfI6Sb" target="_blank" rel="noopener noreferrer" class="external-link">Visiter le site →</a>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2024 Club Informatique IBT · Tous droits réservés</span>
+<span>Fait avec ❤par les membres du club</span>
+</div>
+</footer>
+<!-- ═══MODALS ═══════════════════════════════════════════
+═══════-->
+<!-- Blog modal -->
+<div class="modal-overlay" id="blog-modal">
+<div class="modal">
+<div class="modal-header">
+<h3>✍Nouvel article</h3>
+<button class="modal-close" onclick="closeModal('blog-modal')">✕</button>
+</div>
+<div class="modal-body">
+<div class="field"><label>Titre de l'article</label><input type="text"
+placeholder="Mon super article..." id="blog-title"/></div>
+<div class="field"><label>Catégorie</label>
+<select id="blog-cat">
+<option>Développement</option><option>Cybersécurité</option>
+<option>IA & Data</option><option>Actualités</option>
+</select>
+</div>
+<div class="field"><label>Résumé</label><textarea placeholder="Un bref résumé
+de l'article..." style="min-height:80px" id="blog-summary"></textarea></div>
+<div class="field"><label>Auteur</label><input type="text" placeholder="Ton
+prénom" id="blog-author"/></div>
+<button class="btn-primary" onclick="addBlogPost()">Publier l'article</button>
+</div>
+</div>
+</div>
+<!-- Tuto modal -->
+<div class="modal-overlay" id="tuto-modal">
+<div class="modal">
+<div class="modal-header">
+<h3>🎓Nouveau tutoriel</h3>
+<button class="modal-close" onclick="closeModal('tuto-modal')">✕</button>
+</div>
+<div class="modal-body">
+<div class="field"><label>Titre du tutoriel</label><input type="text"
+placeholder="Comment faire..." id="tuto-title"/></div>
+<div class="field"><label>Technologie</label>
+<select id="tuto-tech">
+<option>HTML/CSS</option><option>JavaScript</option><option>Python</option>
+<option>Linux</option><option>Git</option><option>React</option>
+</select>
+</div>
+<div class="field"><label>Niveau</label>
+<select id="tuto-level">
+<option>Débutant</option><option>Intermédiaire</option><option>Avancé</option>
+</select>
+</div>
+<div class="field"><label>Description</label><textarea placeholder="Brève
+description du tuto..." style="min-height:80px" id="tuto-desc"></textarea></div>
+<button class="btn-primary" onclick="addTuto()">Ajouter le tutoriel</button>
+</div>
+</div>
+</div>
+<!-- Upload modal -->
+<div class="modal-overlay" id="upload-modal">
+<div class="modal">
+<div class="modal-header">
+<h3>📚Déposer une ressource</h3>
+<button class="modal-close" onclick="closeModal('upload-modal')">✕</button>
+</div>
+<div class="modal-body">
+<div class="field"><label>Titre</label><input type="text" placeholder="Titre du
+livre ou du cours..." id="media-title"/></div>
+<div class="field"><label>Auteur / Source</label><input type="text"
+placeholder="Auteur ou source" id="media-author"/></div>
+<div class="field"><label>Type</label>
+<select id="media-type">
+<option value="livre">📗Livre</option>
+<option value="cours">📘Cours</option>
+<option value="outil">🔧Outil</option>
+</select>
+</div>
+<div class="field"><label>Fichier (simulation)</label><input type="file"
+accept=".pdf,.epub,.zip"/></div>
+<button class="btn-primary" onclick="addMedia()">Déposer la
+ressource</button>
+</div>
+</div>
+</div>
+<!-- Toast -->
+<div id="toast" style="
+position:fixed; bottom:24px; right:24px; z-index:9999;
+background:var(--red); color:#fff;
+padding:12px 22px; border-radius:8px;
+font-size:0.88rem; font-weight:700;
+opacity:0; pointer-events:none;
+transform:translateY(12px);
+transition:all 0.3s;
+box-shadow: 0 4px 20px rgba(192,0,29,0.4);
+">
+✓Action réussie !
+</div>
+<script>
+// ───DATA ──────────────────────────────────────────────
+───────
+const EMOJIS_BLOG = ['🌐','🔐','🤖','📱','☁','⚙'];
+const EMOJIS_MEDIA = ['📗','📘','📙','📕','🔧','🗂'];
+let blogPosts = [
+{ id:1, title:"Introduction au développement web avec HTML5", cat:"Développement",
+summary:"Découvrez les bases du HTML5 pour créer vos premières pages web
+modernes.", author:"Jean-Paul", date:"15 Jan 2024", emoji:"🌐" },
+{ id:2, title:"Cybersécurité: protéger son réseau en 10 étapes", cat:"Cybersécurité",
+summary:"Un guide pratique pour sécuriser votre réseau local et vos données
+personnelles.", author:"Amira K.", date:"22 Jan 2024", emoji:"🔐" },
+{ id:3, title:"L'intelligence artificielle : où en est-on en 2024 ?", cat:"IA & Data",
+summary:"Panorama des avancées récentes en IA et ce que cela signifie pour les
+développeurs africains.", author:"Didier M.", date:"30 Jan 2024", emoji:"🤖" }
+];
+let tutos = [
+{ id:1, title:"Git & GitHub pour débutants", tech:"Git", level:"Débutant", desc:"Apprends à
+versionner ton code et collaborer avec GitHub.", emoji:"🔀" },
+{ id:2, title:"Créer une API REST avec Python Flask", tech:"Python", level:"Intermédiaire",
+desc:"Construis une API complète de A àZ avec Flask et JSON.", emoji:"🐍" },
+{ id:3, title:"Introduction àReact.js", tech:"React", level:"Intermédiaire", desc:"Les bases
+de React pour créer des interfaces dynamiques et réactives.", emoji:"⚛" },
+{ id:4, title:"Les bases de Linux & la ligne de commande", tech:"Linux", level:"Débutant",
+desc:"Navigue dans le terminal et maîtrise les commandes essentielles.", emoji:"🐧" },
+];
+let mediaItems = [
+{ id:1, title:"Clean Code", author:"Robert C. Martin", type:"livre", emoji:"📗" },
+{ id:2, title:"Cours réseaux informatiques", author:"IBT Dept. Info", type:"cours",
+emoji:"📘" },
+{ id:3, title:"JavaScript: The Good Parts", author:"Douglas Crockford", type:"livre",
+emoji:"📙" },
+{ id:4, title:"Initiation àla cybersécurité", author:"Club Info IBT", type:"cours",
+emoji:"📕" },
+{ id:5, title:"Visual Studio Code", author:"Microsoft", type:"outil", emoji:"🔧" },
+{ id:6, title:"Introduction àPython 3", author:"Guido van Rossum", type:"livre",
+emoji:"📗" },
+{ id:7, title:"Intro aux bases de données SQL", author:"Prof. Kabila", type:"cours",
+emoji:"📘" },
+{ id:8, title:"Git Cheat Sheet", author:"GitHub", type:"outil", emoji:"🗂" },
+];
+let activeFilter = 'all';
+// ───RENDER ────────────────────────────────────────────
+───────
+function renderBlog() {
+const grid = document.getElementById('blog-grid');
+grid.innerHTML = blogPosts.map(p => `
+<div class="blog-card">
+<div class="blog-thumb">
+${p.emoji}
+<div class="blog-tag">${p.cat}</div>
+</div>
+<div class="blog-body">
+<div class="blog-meta">
+<span>✍${p.author}</span>
+<span>📅${p.date}</span>
+</div>
+<h3>${p.title}</h3>
+<p>${p.summary}</p>
+<a class="blog-link" href="#">Lire l'article →</a>
+</div>
+</div>`).join('');
+}
+function renderTutos() {
+const grid = document.getElementById('tutos-grid');
+const levelColor = { 'Débutant':'pill-red', 'Intermédiaire':'pill-gray', 'Avancé':'pill-gray' };
+grid.innerHTML = tutos.map(t => `
+<div class="tuto-card">
+<div class="tuto-icon">${t.emoji}</div>
+<div>
+<h4>${t.title}</h4>
+<p>${t.desc}</p>
+<div class="tuto-pills">
+<span class="pill pill-red">${t.tech}</span>
+<span class="pill pill-gray">${t.level}</span>
+</div>
+</div>
+</div>`).join('');
+}
+function renderMedia() {
+const grid = document.getElementById('media-grid');
+const filtered = activeFilter === 'all' ? mediaItems : mediaItems.filter(m => m.type ===
+activeFilter);
+grid.innerHTML = filtered.map(m => `
+<div class="media-card">
+<div class="media-cover">${m.emoji}</div>
+<div class="media-info">
+<h4>${m.title}</h4>
+<span>${m.author}</span>
+<div class="media-dl">
+<span class="pill pill-red">${m.type}</span>
+<button>↓Télécharger</button>
+</div>
+</div>
+</div>`).join('');
+}
+// ───ADD FUNCTIONS ───────────────────────────────────────
+─────
+function addBlogPost() {
+const title = document.getElementById('blog-title').value.trim();
+const summary = document.getElementById('blog-summary').value.trim();
+const cat = document.getElementById('blog-cat').value;
+const author = document.getElementById('blog-author').value.trim() || 'Anonyme';
+if (!title || !summary) { alert('Veuillez remplir le titre et le résumé.'); return; }
+const emojis = ['🌐','🔐','🤖','📱','☁','⚙','💡','🔬'];
+blogPosts.unshift({ id: Date.now(), title, cat, summary, author, date: new
+Date().toLocaleDateString('fr-FR', {day:'numeric',month:'short',year:'numeric'}), emoji:
+emojis[Math.floor(Math.random()*emojis.length)] });
+renderBlog();
+closeModal('blog-modal');
+showToast('Article publiéavec succès !');
+}
+function addTuto() {
+const title = document.getElementById('tuto-title').value.trim();
+const tech = document.getElementById('tuto-tech').value;
+const level = document.getElementById('tuto-level').value;
+const desc = document.getElementById('tuto-desc').value.trim();
+if (!title || !desc) { alert('Veuillez remplir le titre et la description.'); return; }
+const emojis =
+{'HTML/CSS':'🎨','JavaScript':'📜','Python':'🐍','Linux':'🐧','Git':'🔀','React':'⚛'};
+tutos.unshift({ id: Date.now(), title, tech, level, desc, emoji: emojis[tech] || '📖' });
+renderTutos();
+closeModal('tuto-modal');
+showToast('Tutoriel ajouté!');
+}
+function addMedia() {
+const title = document.getElementById('media-title').value.trim();
+const author = document.getElementById('media-author').value.trim() || 'Inconnu';
+const type = document.getElementById('media-type').value;
+if (!title) { alert('Veuillez saisir un titre.'); return; }
+const emojis = { livre:'📗', cours:'📘', outil:'🔧' };
+mediaItems.unshift({ id: Date.now(), title, author, type, emoji: emojis[type] });
+renderMedia();
+closeModal('upload-modal');
+showToast('Ressource déposée avec succès !');
+}
+// ───FILTERS ────────────────────────────────────────────
+──────
+document.getElementById('media-filters').addEventListener('click', e => {
+const btn = e.target.closest('.media-filter-btn');
+if (!btn) return;
+document.querySelectorAll('.media-filter-btn').forEach(b =>
+b.classList.remove('active'));
+btn.classList.add('active');
+activeFilter = btn.dataset.filter;
+renderMedia();
+});
+// ───MODALS ────────────────────────────────────────────
+───────
+function openModal(id) {
+document.getElementById(id).classList.add('open');
+document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+document.getElementById(id).classList.remove('open');
+document.body.style.overflow = '';
+}
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+overlay.addEventListener('click', e => {
+if (e.target === overlay) closeModal(overlay.id);
+});
+});
+// ───TOAST ─────────────────────────────────────────────
+───────
+function showToast(msg) {
+const t = document.getElementById('toast');
+t.textContent = '✓' + msg;
+t.style.opacity = '1'; t.style.transform = 'translateY(0)'; t.style.pointerEvents = 'all';
+setTimeout(() => { t.style.opacity = '0';t.style.transform = 'translateY(12px)';
+t.style.pointerEvents = 'none'; }, 3000);
+}
+// ───THEME TOGGLE ───────────────────────────────────────
+
+const setupThemeToggle = () => {
+  const html = document.documentElement;
+  const toggleBtn = document.getElementById('theme-toggle');
+
+  // Restore saved theme
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    html.setAttribute('data-theme', 'dark');
+  }
+
+  // Add click event listener
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      const newTheme = isDark ? 'light' : 'dark';
+      console.log('Switching to:', newTheme);
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+  }
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupThemeToggle);
+} else {
+  setupThemeToggle();
+}
+// ───HAMBURGER ─────────────────────────────────────────
+───────
+const hamburger = document.getElementById('hamburger');
+const navMobile = document.getElementById('nav-mobile');
+hamburger.addEventListener('click', () => {
+navMobile.classList.toggle('open');
+});
+navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () =>
+navMobile.classList.remove('open')));
+// ───NAV ACTIVE ON SCROLL ──────────────────────────────────
+──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const observer = new IntersectionObserver(entries => {
+entries.forEach(e => {
+if (e.isIntersecting) {
+navLinks.forEach(l => l.classList.remove('active'));
+const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+if (active) active.classList.add('active');
+}
+});
+}, { threshold: 0.4 });
+sections.forEach(s => observer.observe(s));
+// ───CONTACT FORM ───────────────────────────────────────
+──────
+function handleContactForm(e) {
+e.preventDefault();
+showToast('Message envoyé! On vous répond bientôt.');
+e.target.reset();
+}
+// ───INIT ───────────────────────────────────────────────
+──────
+renderBlog();
+renderTutos();
+renderMedia();
+</script>
+</body>
+</html>
