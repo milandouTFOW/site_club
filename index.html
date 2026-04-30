@@ -126,7 +126,7 @@ transition: transform var(--transition);
 [data-theme="dark"] #theme-toggle::after { transform: translateX(20px); }
 .theme-icon {
 position: absolute; top: 50%; transform: translateY(-50%);
-font-size: 10px; pointer-event:none;
+font-size: 10px; pointer-events: none;
 }
 .theme-icon.sun { left: 5px; }
 .theme-icon.moon { right: 4px; }
@@ -190,12 +190,43 @@ letter-spacing: -1px;
 margin-bottom: 1.2rem;
 animation: fadeUp 0.6s ease 0.1s both;
 }
+.hero-title-wrapper {
+display: inline-block;
+overflow: hidden;
+vertical-align: bottom;
+max-width: 100%;
+}
+.hero-title-moving {
+display: inline-flex;
+gap: 4rem;
+white-space: nowrap;
+color: var(--red);
+animation: tunnelSlide 12s linear infinite;
+}
+.hero-title-moving span {
+display: inline-block;
+white-space: nowrap;
+}
 .hero-title span { color: var(--red); }
 .hero-sub {
 font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.7;
 max-width: 560px; margin: 0 auto 2.5rem;
 font-family:Arial, Helvetica, sans-serif;
 animation: fadeUp 0.6s ease 0.2s both;
+}
+.reveal {
+opacity: 0;
+transform: translateY(32px) scale(0.98);
+transition: opacity 0.75s ease, transform 0.75s ease;
+will-change: opacity, transform;
+}
+.reveal.active {
+opacity: 1;
+transform: translateY(0) scale(1);
+}
+@keyframes tunnelSlide {
+0% { transform: translateX(0); }
+100% { transform: translateX(50%); }
 }
 .hero-cta {
 display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
@@ -299,25 +330,32 @@ box-shadow: 0 8px 16px rgba(139,0,19,0.25);
 }
 .about-values { display: flex; flex-direction: column; gap: 18px; margin-top: 2rem; }
 .value-item {
-display: flex; gap: 16px; align-items: flex-start;
-padding: 20px 24px; background: var(--surface);
-border-radius: 20px; border: 1px solid rgba(139,0,19,0.1);
+display: grid; grid-template-columns: 1fr 230px;
+gap: 22px; align-items: center;
+padding: 24px; background: var(--surface);
+border-radius: 24px; border: 1px solid rgba(139,0,19,0.12);
 transition: all var(--transition);
 box-shadow: 0 12px 32px rgba(0,0,0,0.06);
 }
 .value-item:hover {
 border-color: var(--red);
-transform: translateX(8px);
+transform: translateX(6px);
 box-shadow: 0 20px 48px rgba(139,0,19,0.15);
 }
-.value-icon {
-width: 44px; height: 44px; flex-shrink: 0;
-background: linear-gradient(135deg, rgba(139,0,19,0.15), rgba(139,0,19,0.08)); border-radius: 14px;
+.value-item-text { display: flex; flex-direction: column; gap: 12px; }
+.value-item h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0; }
+.value-item p { font-size: 0.9rem; color: var(--text2); line-height: 1.75; }
+.value-image {
+width: 100%; min-height: 180px;
+border-radius: 20px; overflow: hidden;
+background: var(--bg3);
 display: flex; align-items: center; justify-content: center;
-font-size: 22px;
 }
-.value-item h4 { font-size: 0.98rem; font-weight: 700; margin-bottom: 4px; }
-.value-item p { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+.value-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (max-width: 900px) {
+.value-item { grid-template-columns: 1fr; }
+.value-image { min-height: 220px; }
+}
 /* ───BLOG ────────────────────────────────────────────
 ────────*/
 #blog { background: var(--bg); }
@@ -650,11 +688,16 @@ font-weight: 600; font-size: 0.9rem;
 .footer-inner { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 600px) {
+.nav-logo-text strong { font-size: 0.9rem; }
+.nav-logo-text span { font-size: 0.6rem; }
+navbar { padding: 0 1rem; }
 .blog-grid, .media-grid { grid-template-columns: 1fr; }
 .form-row { grid-template-columns: 1fr; }
 .footer-inner { grid-template-columns: 1fr; }
-.hero-stats { gap: 1.5rem; }
+.hero-stats { gap: 1.5rem; flex-direction: column; }
 .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+.hero-title { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+section { padding: 50px 1.5rem; }
 }
 </style>
 </head>
@@ -670,11 +713,11 @@ font-weight: 600; font-size: 0.9rem;
 </div>
 </div>
 <ul class="nav-links">
-<li><a href="index.html#hero" class="active">Accueil</a></li>
-<li><a href="index.html#about">Àpropos</a></li>
-<li><a href="index.html#blog">Blog</a></li>
-<li><a href="index.html#tutos">Tutoriels</a></li>
-<li><a href="index.html#media">Médiathèque</a></li>
+<li><a href="index.html" class="active">Accueil</a></li>
+<li><a href="about.html">À Propos</a></li>
+<li><a href="blog.html">Blog</a></li>
+<li><a href="tutoriel.html">Tutoriels</a></li>
+<li><a href="mediatheque.html">Médiatèque</a></li>
 <li><a href="index.html#contact">Contact</a></li>
 </ul>
 <div class="nav-right">
@@ -704,8 +747,9 @@ font-weight: 600; font-size: 0.9rem;
 <div class="hero-content">
 <div class="hero-badge">Club Actif · Fondé en 2026</div>
 <h1 class="hero-title">
- Club
-<span>numérique</span><br />
+<span class="hero-title-wrapper">
+<span class="hero-title-moving"><span>Club numérique</span><span>Club numérique</span></span>
+</span><br />
 d'IBanT
 </h1>
 <p class="hero-sub">
@@ -751,27 +795,30 @@ le développement logiciel, la cybersécuritéet l'innovation numérique.
 </p>
 <div class="about-values">
 <div class="value-item">
-<div class="value-icon">🚀</div>
-<div>
+<div class="value-item-text">
 <h4>Innovation</h4>
-<p>Nous explorons les dernières technologies et encourageons la
-créativitédans chaque projet.</p>
+<p>Nous explorons les dernières technologies et encourageons la créativité dans chaque projet.</p>
+</div>
+<div class="value-image">
+<img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="Innovation technologique" />
 </div>
 </div>
 <div class="value-item">
-<div class="value-icon">🤝</div>
-<div>
+<div class="value-item-text">
 <h4>Collaboration</h4>
-<p>L'entraide entre membres est au cœur de notre culture. Ensemble, on
-va plus loin.</p>
+<p>L'entraide entre membres est au cœur de notre culture. Ensemble, on va plus loin.</p>
+</div>
+<div class="value-image">
+<img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80" alt="Travail d'équipe" />
 </div>
 </div>
 <div class="value-item">
-<div class="value-icon">📚</div>
-<div>
+<div class="value-item-text">
 <h4>Formation continue</h4>
-<p>Ateliers, tutoriels et ressources partagées pour que chacun
-progresse àson rythme.</p>
+<p>Ateliers, tutoriels et ressources partagées pour que chacun progresse à son rythme.</p>
+</div>
+<div class="value-image">
+<img src="https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?auto=format&fit=crop&w=800&q=80" alt="Apprentissage continu" />
 </div>
 </div>
 </div>
@@ -794,7 +841,7 @@ développement et bien plus.</p>
 <div class="blog-grid" id="blog-grid">
 <!-- Blog cards are generated by JS -->
 </div>
-<button class="add-btn" onclick="openModal('blog-modal')">
+<button class="add-btn" data-open-modal="blog-modal" onclick="openModal('blog-modal')">
 ＋Ajouter un article
 </button>
 </div>
@@ -811,7 +858,7 @@ maîtriser les outils du développeur moderne.</p>
 <!-- Tuto cards generated by JS -->
 </div>
 <button class="add-btn" style="margin-top:1.5rem"
-onclick="openModal('tuto-modal')">
+data-open-modal="tuto-modal" onclick="openModal('tuto-modal')">
 ＋Ajouter un tutoriel
 </button>
 </div>
@@ -825,18 +872,18 @@ onclick="openModal('tuto-modal')">
 <p class="section-sub">Télécharge des livres, supports de cours et ressources
 numériques mis àdisposition par le club.</p>
 <div class="media-toolbar" id="media-filters">
-<button class="media-filter-btn active" data-filter="all">Tous</button>
-<button class="media-filter-btn" data-filter="livre">Livres</button>
-<button class="media-filter-btn" data-filter="cours">Cours</button>
-<button class="media-filter-btn" data-filter="outil">Outils</button>
+<a class="media-filter-btn active" href="mediatheque.html?filter=all">Tous</a>
+<a class="media-filter-btn" href="mediatheque.html?filter=livre">Livres</a>
+<a class="media-filter-btn" href="mediatheque.html?filter=cours">Cours</a>
+<a class="media-filter-btn" href="mediatheque.html?filter=outil">Outils</a>
 </div>
 <div class="media-grid" id="media-grid">
 <!-- Media cards generated by JS -->
 </div>
-<div class="upload-box" onclick="openModal('upload-modal')">
+<div class="upload-box" data-open-modal="upload-modal" onclick="openModal('upload-modal')">
 <div class="upload-icon">📤</div>
 <p>Dépose un livre ou une ressource pour la communauté</p>
-<button class="btn-primary"
+<button class="btn-primary" data-open-modal="upload-modal"
 onclick="event.stopPropagation();openModal('upload-modal')">Déposer un
 fichier</button>
 </div>
@@ -853,31 +900,31 @@ fichier</button>
 <div class="contact-grid">
 <div class="contact-info">
 <div class="contact-card">
-<div class="contact-card-icon">📍</div>
+<div class="contact-card-icon"><i class="fa-solid fa-location-dot"></i></div>
 <div>
 <h4>Adresse</h4>
-<p>Institut Bantou de Technologie<br />brazzaville, république du congo <br>18 rue Ampère Bacongo</p>
+<p>Institut Bantou de Technologie<br />Brazzaville, République du Congo<br>18 rue Ampère Bacongo</p>
 </div>
 </div>
 <div class="contact-card">
-<div class="contact-card-icon">📧</div>
+<div class="contact-card-icon"><i class="fa-solid fa-envelope"></i></div>
 <div>
 <h4>Email</h4>
 <p>clubinfo@ibt-edu.cg</p>
 </div>
 </div>
 <div class="contact-card">
-<div class="contact-card-icon">📱</div>
+<div class="contact-card-icon"><i class="fab fa-whatsapp"></i></div>
 <div>
 <h4>WhatsApp</h4>
 <p>+242 06 543 63 81</p>
 </div>
 </div>
 <div class="contact-card">
-<div class="contact-card-icon">🕐</div>
+<div class="contact-card-icon"><i class="fa-solid fa-calendar-days"></i></div>
 <div>
 <h4>Réunions</h4>
-<p>lundi :15h30 à 16h30<br/>Salle des L1</p>
+<p>lundi : 15h30 à 16h30<br/>Salle des L1</p>
 </div>
 </div>
 </div>
@@ -1058,22 +1105,17 @@ const EMOJIS_BLOG = ['🌐','🔐','🤖','📱','☁','⚙'];
 const EMOJIS_MEDIA = ['📗','📘','📙','📕','🔧','🗂'];
 let blogPosts = [
 { id:1, title:"Introduction au développement web avec HTML5", cat:"Développement",
-summary:"Découvrez les bases du HTML5 pour créer vos premières pages web
-modernes.", author:"Jean-Paul", date:"15 Jan 2024", emoji:"🌐" },
+summary:"Découvrez les bases du HTML5 pour créer vos premières pages web modernes.", author:"Jean-Paul", date:"15 Jan 2024", emoji:"🌐" },
 { id:2, title:"Cybersécurité: protéger son réseau en 10 étapes", cat:"Cybersécurité",
-summary:"Un guide pratique pour sécuriser votre réseau local et vos données
-personnelles.", author:"Amira K.", date:"22 Jan 2024", emoji:"🔐" },
+summary:"Un guide pratique pour sécuriser votre réseau local et vos données personnelles.", author:"Amira K.", date:"22 Jan 2024", emoji:"🔐" },
 { id:3, title:"L'intelligence artificielle : où en est-on en 2024 ?", cat:"IA & Data",
-summary:"Panorama des avancées récentes en IA et ce que cela signifie pour les
-développeurs africains.", author:"Didier M.", date:"30 Jan 2024", emoji:"🤖" }
+summary:"Panorama des avancées récentes en IA et ce que cela signifie pour les développeurs africains.", author:"Didier M.", date:"30 Jan 2024", emoji:"🤖" }
 ];
 let tutos = [
-{ id:1, title:"Git & GitHub pour débutants", tech:"Git", level:"Débutant", desc:"Apprends à
-versionner ton code et collaborer avec GitHub.", emoji:"🔀" },
+{ id:1, title:"Git & GitHub pour débutants", tech:"Git", level:"Débutant", desc:"Apprends à versionner ton code et collaborer avec GitHub.", emoji:"🔀" },
 { id:2, title:"Créer une API REST avec Python Flask", tech:"Python", level:"Intermédiaire",
 desc:"Construis une API complète de A àZ avec Flask et JSON.", emoji:"🐍" },
-{ id:3, title:"Introduction àReact.js", tech:"React", level:"Intermédiaire", desc:"Les bases
-de React pour créer des interfaces dynamiques et réactives.", emoji:"⚛" },
+{ id:3, title:"Introduction àReact.js", tech:"React", level:"Intermédiaire", desc:"Les bases de React pour créer des interfaces dynamiques et réactives.", emoji:"⚛" },
 { id:4, title:"Les bases de Linux & la ligne de commande", tech:"Linux", level:"Débutant",
 desc:"Navigue dans le terminal et maîtrise les commandes essentielles.", emoji:"🐧" },
 ];
@@ -1092,6 +1134,10 @@ emoji:"📗" },
 emoji:"📘" },
 { id:8, title:"Git Cheat Sheet", author:"GitHub", type:"outil", emoji:"🗂" },
 ];
+const savedMediaItems = localStorage.getItem('club_media_items');
+if (savedMediaItems) {
+  try { mediaItems = JSON.parse(savedMediaItems); } catch (e) { console.warn('Invalid saved media', e); }
+}
 let activeFilter = 'all';
 // ───RENDER ────────────────────────────────────────────
 ───────
@@ -1156,9 +1202,7 @@ const cat = document.getElementById('blog-cat').value;
 const author = document.getElementById('blog-author').value.trim() || 'Anonyme';
 if (!title || !summary) { alert('Veuillez remplir le titre et le résumé.'); return; }
 const emojis = ['🌐','🔐','🤖','📱','☁','⚙','💡','🔬'];
-blogPosts.unshift({ id: Date.now(), title, cat, summary, author, date: new
-Date().toLocaleDateString('fr-FR', {day:'numeric',month:'short',year:'numeric'}), emoji:
-emojis[Math.floor(Math.random()*emojis.length)] });
+blogPosts.unshift({ id: Date.now(), title, cat, summary, author, date: new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'short',year:'numeric'}), emoji: emojis[Math.floor(Math.random()*emojis.length)] });
 renderBlog();
 closeModal('blog-modal');
 showToast('Article publiéavec succès !');
@@ -1183,6 +1227,7 @@ const type = document.getElementById('media-type').value;
 if (!title) { alert('Veuillez saisir un titre.'); return; }
 const emojis = { livre:'📗', cours:'📘', outil:'🔧' };
 mediaItems.unshift({ id: Date.now(), title, author, type, emoji: emojis[type] });
+localStorage.setItem('club_media_items', JSON.stringify(mediaItems));
 renderMedia();
 closeModal('upload-modal');
 showToast('Ressource déposée avec succès !');
@@ -1208,6 +1253,14 @@ function closeModal(id) {
 document.getElementById(id).classList.remove('open');
 document.body.style.overflow = '';
 }
+window.openModal = openModal;
+window.closeModal = closeModal;
+document.querySelectorAll('[data-open-modal]').forEach(el => {
+  el.addEventListener('click', e => {
+    const id = el.dataset.openModal;
+    if (id) openModal(id);
+  });
+});
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
 overlay.addEventListener('click', e => {
 if (e.target === overlay) closeModal(overlay.id);
@@ -1255,13 +1308,24 @@ if (document.readyState === 'loading') {
 }
 // ───HAMBURGER ─────────────────────────────────────────
 ───────
-const hamburger = document.getElementById('hamburger');
-const navMobile = document.getElementById('nav-mobile');
-hamburger.addEventListener('click', () => {
-navMobile.classList.toggle('open');
-});
-navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () =>
-navMobile.classList.remove('open')));
+const initHamburger = () => {
+  const hamburger = document.getElementById('hamburger');
+  const navMobile = document.getElementById('nav-mobile');
+  if (!hamburger || !navMobile) return;
+  hamburger.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navMobile.classList.toggle('open');
+  });
+  navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navMobile.classList.remove('open');
+  }));
+};
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initHamburger);
+} else {
+  initHamburger();
+}
 // ───NAV ACTIVE ON SCROLL ──────────────────────────────────
 ──
 const sections = document.querySelectorAll('section[id]');
@@ -1276,6 +1340,23 @@ if (active) active.classList.add('active');
 });
 }, { threshold: 0.4 });
 sections.forEach(s => observer.observe(s));
+
+function setupScrollReveal() {
+  const revealTargets = document.querySelectorAll('section, .hero-content, .hero-badge, .hero-cta, .hero-stats, .about-grid, .about-visual, .about-values, .blog-card, .tuto-card, .media-card, .contact-card, .contact-form, .footer-inner, .add-btn');
+  const revealObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -15% 0px' });
+  revealTargets.forEach(el => {
+    el.classList.add('reveal');
+    revealObserver.observe(el);
+  });
+}
+
 // ───CONTACT FORM ───────────────────────────────────────
 ──────
 function handleContactForm(e) {
@@ -1288,6 +1369,7 @@ e.target.reset();
 renderBlog();
 renderTutos();
 renderMedia();
+setupScrollReveal();
 </script>
 </body>
 </html>

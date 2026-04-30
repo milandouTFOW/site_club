@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Médiathèque · Club numérique IBanT</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+:root {
+--red: #8B0013;
+--red-dark: #660011;
+--red-light: #A50015;
+--bg: #FFFFFF;
+--bg2: #F5F5F5;
+--bg3: #EBEBEB;
+--surface: #FFFFFF;
+--border: #E0E0E0;
+--text: #111111;
+--text2: #444444;
+--text3: #888888;
+--card-shadow: 0 4px 24px rgba(0,0,0,0.08);
+--nav-h: 68px;
+--radius: 12px;
+--transition: 0.3s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"] {
+--bg: #0F0F0F;
+--bg2: #1A1A1A;
+--bg3: #2A2A2A;
+--surface: #1E1E1E;
+--border: #333333;
+--text: #F0F0F0;
+--text2: #BBBBBB;
+--text3: #777777;
+--card-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; background: var(--bg); color: var(--text); transition: background var(--transition), color var(--transition); overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; background: none; font: inherit; }
+#navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: var(--nav-h); background: var(--red); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; border-bottom-left-radius: 28px; border-bottom-right-radius: 28px; box-shadow: 0 2px 20px rgba(192,0,29,0.4); }
+.nav-logo { display: flex; align-items: center; gap: 17px; }
+.nav-logo-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.nav-logo-text { color: #fff; }
+.nav-logo-text strong { display: block; font-size: 1rem; font-weight: 800; letter-spacing: 0.5px; }
+.nav-logo-text span { font-size: 0.7rem; opacity: 0.8; font-family: 'Space Mono', monospace; }
+.nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+.nav-links a { color: rgba(255,255,255,0.85); padding: 6px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; transition: background var(--transition), color var(--transition); letter-spacing: 0.3px; }
+.nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.2); color: #fff; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+#theme-toggle { width: 44px; height: 24px; background: rgba(255,255,255,0.2); border-radius: 12px; position: relative; border: 1px solid rgba(255,255,255,0.3); transition: background var(--transition); }
+#theme-toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; background: #fff; border-radius: 50%; transition: transform var(--transition); }
+[data-theme="dark"] #theme-toggle::after { transform: translateX(20px); }
+.theme-icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 10px; pointer-events: none; }
+.theme-icon.sun { left: 5px; }
+.theme-icon.moon { right: 4px; }
+#hamburger { display: none; flex-direction: column; gap: 5px; width: 32px; padding: 4px; }
+#hamburger span { display: block; height: 2px; background: #fff; border-radius: 2px; transition: transform var(--transition), opacity var(--transition); }
+.nav-mobile { display: none; flex-direction: column; position: fixed; top: var(--nav-h); left: 0; right: 0; background: var(--red-dark); padding: 1rem 1.5rem; z-index: 999; gap: 8px; }
+.nav-mobile.open { display: flex; }
+.nav-mobile a { color: rgba(255,255,255,0.85); padding: 10px 14px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; }
+.nav-mobile a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+#hero { padding-top: var(--nav-h); background: linear-gradient(135deg, rgba(139,0,19,0.6), rgba(15,15,15,0.6)), url('https://images.unsplash.com/photo-1507842217343-583f7270bfba?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; color: #fff; }
+.hero-content { max-width: 1160px; margin: 0 auto; padding: 3rem 2rem 2rem; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 8px 18px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both; }
+.hero-title { font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.05; margin-bottom: 1rem; animation: fadeUp 0.6s ease 0.1s both; color: #fff; }
+.hero-sub { max-width: 720px; color: rgba(255,255,255,0.95); line-height: 1.75; margin-bottom: 2rem; font-size: 1rem; animation: fadeUp 0.6s ease 0.2s both; }
+.btn-primary { background: var(--red); color: #fff; padding: 13px 28px; border-radius: 8px; font-weight: 700; transition: background var(--transition), transform 0.2s; letter-spacing: 0.3px; }
+.btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); }
+.section { padding: 60px 2rem; }
+.section-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--red); margin-bottom: 0.6rem; }
+.section-title { font-size: clamp(1.9rem, 3.5vw, 2.8rem); font-weight: 800; line-height: 1.1; margin-bottom: 0.8rem; letter-spacing: -0.5px; }
+.section-sub { color: var(--text2); max-width: 640px; line-height: 1.75; margin-bottom: 2rem; }
+.container { max-width: 1160px; margin: 0 auto; }
+.media-toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 2rem; }
+.media-filter-btn { padding: 10px 18px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg2); color: var(--text2); font-weight: 700; font-size: 0.9rem; transition: all var(--transition); cursor: pointer; }
+.media-filter-btn:hover { border-color: var(--red); }
+.media-filter-btn.active { background: var(--red); color: #fff; border-color: var(--red); }
+.media-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.media-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--card-shadow); display: flex; flex-direction: column; transition: transform var(--transition), box-shadow var(--transition); opacity: 0; animation: slideUp 0.6s ease forwards; }
+.media-card:nth-child(1) { animation-delay: 0.05s; }
+.media-card:nth-child(2) { animation-delay: 0.1s; }
+.media-card:nth-child(3) { animation-delay: 0.15s; }
+.media-card:nth-child(n+4) { animation-delay: calc((var(--index) - 4) * 0.05s); }
+.media-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.12); }
+.media-cover { height: 180px; background: var(--bg3); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative; }
+.media-info { padding: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.media-info h4 { font-size: 1rem; font-weight: 700; line-height: 1.3; }
+.media-info span { font-size: 0.85rem; color: var(--text3); font-family: 'Space Mono', monospace; }
+.media-dl { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: auto; }
+.media-dl button { background: var(--red); color: #fff; padding: 8px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; transition: background var(--transition); }
+.media-dl button:hover { background: var(--red-dark); }
+.upload-section { background: linear-gradient(135deg, rgba(139,0,19,0.05), rgba(139,0,19,0.02)); border-radius: 20px; padding: 2.5rem; margin-top: 3rem; }
+.upload-form { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; box-shadow: var(--card-shadow); max-width: 600px; margin: 0 auto; }
+.upload-form h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; }
+.upload-form .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.upload-form label { font-weight: 700; color: var(--text2); font-size: 0.9rem; }
+.upload-form input, .upload-form select, .upload-form textarea { padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(17,17,17,0.08); background: #fff; color: var(--text); font-size: 0.95rem; transition: border-color var(--transition); }
+.upload-form input:focus, .upload-form select:focus, .upload-form textarea:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(139,0,19,0.1); outline: none; }
+.upload-form textarea { min-height: 110px; resize: vertical; }
+.upload-form button { margin-top: 10px; width: 100%; }
+.empty-state { text-align: center; padding: 3rem 2rem; color: var(--text3); }
+.empty-state p { font-size: 1rem; margin-bottom: 1rem; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 900px) { .nav-links { display: none; } #hamburger { display: flex; } .media-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .media-grid { grid-template-columns: 1fr; } .upload-section { padding: 1.5rem; } .upload-form { padding: 1.5rem; } }
+</style>
+</head>
+<body>
+<!-- ═══NAVBAR ═══════════════════════════════════════════
+══════-->
+<nav id="navbar">
+<div class="nav-logo">
+<div class="nav-logo-icon">💻</div>
+<div class="nav-logo-text">
+<strong>Club numerique IBanT</strong>
+<span>Institut Bantou de Technologie</span>
+</div>
+</div>
+<ul class="nav-links">
+<li><a href="index.html#hero">Accueil</a></li>
+<li><a href="index.html#about">Àpropos</a></li>
+<li><a href="index.html#blog">Blog</a></li>
+<li><a href="index.html#tutos">Tutoriels</a></li>
+<li><a href="mediatheque.html" class="active">Médiathèque</a></li>
+<li><a href="index.html#contact">Contact</a></li>
+</ul>
+<div class="nav-right">
+<button id="theme-toggle" aria-label="Changer de thème">
+<span class="theme-icon sun">☀</span>
+<span class="theme-icon moon">🌙</span>
+</button>
+<button id="hamburger" aria-label="Menu">
+<span></span><span></span><span></span>
+</button>
+</div>
+</nav>
+<!-- Mobile menu -->
+<div class="nav-mobile" id="nav-mobile">
+<a href="index.html#hero">Accueil</a>
+<a href="index.html#about">Àpropos</a>
+<a href="index.html#blog">Blog</a>
+<a href="index.html#tutos">Tutoriels</a>
+<a href="mediatheque.html">Médiathèque</a>
+<a href="index.html#contact">Contact</a>
+</div>
+<main>
+<section id="hero">
+<div class="hero-content">
+<div class="hero-badge">Médiathèque collaborative</div>
+<h1 class="hero-title">Ressources numériques partagées</h1>
+<p class="hero-sub">Accède aux livres, cours et outils sélectionnés par les membres du club. Partage tes ressources et enrichis notre bibliothèque collective.</p>
+<a class="btn-primary" href="#library">Parcourir les ressources</a>
+</div>
+</section>
+<section id="library" class="section">
+<div class="container">
+<div class="section-label">Médiathèque</div>
+<h2 class="section-title">Bibliothèque du club</h2>
+<p class="section-sub">Filtre par catégorie pour trouver les ressources qui t'intéressent. Blog, tutoriels, cours, outils — tout ce qu'il faut pour progresser.</p>
+<div class="media-toolbar" id="media-filters">
+<button class="media-filter-btn active" data-filter="all">Tous</button>
+<button class="media-filter-btn" data-filter="livre">Livres</button>
+<button class="media-filter-btn" data-filter="cours">Cours</button>
+<button class="media-filter-btn" data-filter="outil">Outils</button>
+</div>
+<div class="media-grid" id="media-grid"></div>
+<div class="empty-state" id="empty-state">
+<p>Aucune ressource pour cette catégorie.</p>
+<small>Ajoute la première ressource ci-dessous !</small>
+</div>
+</div>
+</section>
+<section class="section upload-section">
+<div class="container">
+<div style="max-width: 800px; margin: 0 auto;">
+<div class="section-label" style="display: block; margin-bottom: 1rem;">Partager</div>
+<h2 class="section-title" style="margin-bottom: 0.5rem;">Ajouter une ressource</h2>
+<p class="section-sub" style="margin-bottom: 1.5rem;">Contribue à la médiathèque en partageant un livre, un cours ou un outil. Remplis le formulaire ci-dessous.</p>
+<form id="upload-form" class="upload-form">
+<div class="field"><label for="media-title">Titre *</label><input id="media-title" type="text" placeholder="Titre du livre, cours ou outil..." required></div>
+<div class="field"><label for="media-author">Auteur / Source</label><input id="media-author" type="text" placeholder="Auteur, éditeur ou source..."></div>
+<div class="field"><label for="media-type">Type *</label><select id="media-type" required>
+<option value="livre">📗 Livre</option>
+<option value="cours">📘 Cours</option>
+<option value="outil">🔧 Outil</option>
+</select></div>
+<button class="btn-primary" type="submit">Ajouter la ressource</button>
+</form>
+</div>
+</div>
+</section>
+</main>
+<script>
+const storedMedia = localStorage.getItem('club_media_items');
+let mediaItems = storedMedia ? JSON.parse(storedMedia) : [
+  { id:1, title:'Clean Code', author:'Robert C. Martin', type:'livre', emoji:'📗' },
+  { id:2, title:'Cours réseaux informatiques', author:'IBT Dept. Info', type:'cours', emoji:'📘' }
+];
+let activeFilter = 'all';
+const mediaGrid = document.getElementById('media-grid');
+const emptyState = document.getElementById('empty-state');
+const filterButtons = document.querySelectorAll('.media-filter-btn');
+filterButtons.forEach((btn, idx) => {
+  btn.addEventListener('click', () => {
+    filterButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    renderMedia();
+  });
+});
+function renderMedia() {
+  const filtered = activeFilter === 'all' ? mediaItems : mediaItems.filter(item => item.type === activeFilter);
+  mediaGrid.innerHTML = filtered.map((item, idx) => {
+    let html = `<div class="media-card" style="--index: ${idx};">`;
+    html += `<div class="media-cover">${item.emoji}</div>`;
+    html += `<div class="media-info">`;
+    html += `<span style="font-weight: 700; color: var(--red); text-transform: uppercase;">${item.type}</span>`;
+    html += `<h4>${item.title}</h4>`;
+    html += `<span>${item.author}</span>`;
+    html += `<div class="media-dl" style="margin-top: auto;">`;
+    html += `<button type="button">Télécharger</button>`;
+    html += `</div></div></div>`;
+    return html;
+  }).join('');
+  emptyState.style.display = filtered.length ? 'none' : 'block';
+}
+function saveMediaItems() { localStorage.setItem('club_media_items', JSON.stringify(mediaItems)); }
+function addMedia(event) {
+  event.preventDefault();
+  const title = document.getElementById('media-title').value.trim();
+  const author = document.getElementById('media-author').value.trim() || 'Inconnu';
+  const type = document.getElementById('media-type').value;
+  if (!title) return;
+  const emojiMap = { livre:'📗', cours:'📘', outil:'🔧' };
+  mediaItems.unshift({ id: Date.now(), title, author, type, emoji: emojiMap[type] });
+  saveMediaItems();
+  renderMedia();
+  document.getElementById('upload-form').reset();
+  alert('Ressource ajoutée avec succès !');
+}
+document.getElementById('upload-form').addEventListener('submit', addMedia);
+renderMedia();
+
+// Theme toggle
+const setupThemeToggle = () => {
+  const html = document.documentElement;
+  const toggleBtn = document.getElementById('theme-toggle');
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    html.setAttribute('data-theme', 'dark');
+  }
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      const newTheme = isDark ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+  }
+};
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupThemeToggle);
+} else {
+  setupThemeToggle();
+}
+
+// Hamburger menu
+const initHamburger = () => {
+  const hamburger = document.getElementById('hamburger');
+  const navMobile = document.getElementById('nav-mobile');
+  if (!hamburger || !navMobile) return;
+  hamburger.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navMobile.classList.toggle('open');
+  });
+  navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navMobile.classList.remove('open');
+  }));
+};
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initHamburger);
+} else {
+  initHamburger();
+}
+</script>
+</body>
+</html>

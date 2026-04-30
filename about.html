@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À Propos - Club Numérique IBanT</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --red: #c0001d;
+      --dark-red: #8b0013;
+      --bg: #f5f5f5;
+      --text: #1a1a1a;
+      --text2: #555;
+      --card-bg: #fff;
+      --border: #e0e0e0;
+      --transition: 0.3s ease;
+      --nav-h: 70px;
+    }
+    [data-theme="dark"] {
+      --bg: #0f0f0f;
+      --text: #fff;
+      --text2: #bbb;
+      --card-bg: #1a1a1a;
+      --border: #333;
+    }
+    html, body { width: 100%; height: 100%; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background var(--transition), color var(--transition); line-height: 1.6; }
+    
+    /* NAVBAR */
+    navbar { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 2rem; height: var(--nav-h); padding: 0 3rem; background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 900; color: var(--red); }
+    .nav-logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-logo-text strong { font-size: 1rem; }
+    .nav-logo-text span { font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text2); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { color: var(--text); text-decoration: none; font-weight: 600; transition: color var(--transition); position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--red); transition: width var(--transition); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-actions { display: flex; align-items: center; gap: 1.5rem; }
+    #theme-toggle { width: 44px; height: 24px; background: rgba(255,255,255,0.2); border-radius: 12px; position: relative; border: 1px solid rgba(255,255,255,0.3); transition: background var(--transition); cursor: pointer; }
+    #theme-toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; background: #fff; border-radius: 50%; transition: transform var(--transition); }
+    [data-theme="dark"] #theme-toggle::after { transform: translateX(20px); }
+    #hamburger { display: none; flex-direction: column; gap: 5px; width: 32px; padding: 4px; background: none; border: none; cursor: pointer; }
+    #hamburger span { display: block; height: 2px; background: #fff; border-radius: 2px; transition: transform var(--transition), opacity var(--transition); }
+    #nav-mobile { display: none; position: absolute; top: var(--nav-h); left: 0; right: 0; background: var(--card-bg); border-bottom: 1px solid var(--border); flex-direction: column; padding: 1rem; gap: 0.5rem; }
+    #nav-mobile.open { display: flex; }
+    #nav-mobile a { color: var(--text); text-decoration: none; padding: 0.8rem 1rem; border-radius: 6px; transition: background var(--transition); }
+    #nav-mobile a:hover { background: rgba(192,0,29,0.1); }
+    
+    /* HERO */
+    #hero { padding-top: var(--nav-h); background: linear-gradient(135deg, rgba(139,0,19,0.7), rgba(15,15,15,0.7)), url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; color: #fff; padding-bottom: 80px; position: relative; overflow: hidden; }
+    #hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 50%, rgba(192,0,29,0.1), transparent), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05), transparent); pointer-events: none; }
+    .hero-content { max-width: 900px; margin: 0 auto; padding: 4rem; position: relative; z-index: 1; text-align: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 8px 18px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both; }
+    .hero-title { font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.05; margin-bottom: 1rem; animation: fadeUp 0.6s ease 0.1s both; }
+    .hero-sub { max-width: 720px; color: rgba(255,255,255,0.95); line-height: 1.75; margin: 0 auto 2rem; font-size: 1.05rem; animation: fadeUp 0.6s ease 0.2s both; }
+    
+    /* FLOATING ELEMENTS */
+    .floating { animation: float 6s ease-in-out infinite; }
+    .floating-slow { animation: float 8s ease-in-out infinite; }
+    .floating-fast { animation: float 4s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0px) rotateZ(0deg); } 50% { transform: translateY(-20px) rotateZ(5deg); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-60px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
+    
+    /* FLOATY ICON ELEMENTS */
+    .floaty-icon { position: fixed; pointer-events: none; font-size: 3rem; opacity: 0.15; }
+    .floaty-icon:nth-child(1) { top: 10%; left: 5%; animation: float 10s ease-in-out infinite; }
+    .floaty-icon:nth-child(2) { top: 40%; right: 5%; animation: float 12s ease-in-out infinite reverse; }
+    .floaty-icon:nth-child(3) { bottom: 20%; left: 8%; animation: float 14s ease-in-out infinite; }
+    
+    /* SECTIONS */
+    section { padding: 80px 3rem; }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 3rem; text-align: center; position: relative; }
+    .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background: var(--red); border-radius: 2px; }
+    
+    /* TIMELINE */
+    .timeline { max-width: 900px; margin: 0 auto; position: relative; }
+    .timeline::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); top: 0; bottom: 0; width: 2px; background: var(--red); }
+    .timeline-item { margin-bottom: 4rem; width: 48%; }
+    .timeline-item:nth-child(odd) { margin-left: 0; }
+    .timeline-item:nth-child(even) { margin-left: 52%; }
+    .timeline-content { background: var(--card-bg); padding: 2rem; border-radius: 12px; border-left: 4px solid var(--red); box-shadow: 0 4px 15px rgba(0,0,0,0.1); animation: slideInLeft 0.6s ease forwards; opacity: 0; }
+    .timeline-item:nth-child(even) .timeline-content { border-left: none; border-right: 4px solid var(--red); animation: slideInRight 0.6s ease forwards; }
+    .timeline-item:nth-child(1) .timeline-content { animation-delay: 0.1s; }
+    .timeline-item:nth-child(2) .timeline-content { animation-delay: 0.2s; }
+    .timeline-item:nth-child(3) .timeline-content { animation-delay: 0.3s; }
+    .timeline-item:nth-child(4) .timeline-content { animation-delay: 0.4s; }
+    .timeline-year { font-size: 1.5rem; font-weight: 800; color: var(--red); margin-bottom: 0.5rem; }
+    .timeline-desc { color: var(--text2); line-height: 1.6; }
+    
+    /* TEAM GRID */
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+    .team-card { text-align: center; opacity: 0; animation: fadeUp 0.6s ease forwards; }
+    .team-card:nth-child(1) { animation-delay: 0.1s; }
+    .team-card:nth-child(2) { animation-delay: 0.2s; }
+    .team-card:nth-child(3) { animation-delay: 0.3s; }
+    .team-image { width: 200px; height: 200px; border-radius: 12px; object-fit: cover; margin-bottom: 1.5rem; box-shadow: 0 8px 20px rgba(0,0,0,0.15); transition: transform 0.4s ease; }
+    .team-card:hover .team-image { transform: scale(1.05); }
+    .team-name { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .team-role { color: var(--red); font-weight: 600; margin-bottom: 1rem; font-size: 0.9rem; }
+    .team-bio { color: var(--text2); line-height: 1.6; font-size: 0.95rem; }
+    
+    /* VALUES GRID */
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+    .value-card { background: var(--card-bg); padding: 2.5rem 2rem; border-radius: 12px; text-align: center; border: 1px solid var(--border); transition: transform 0.4s ease, box-shadow 0.4s ease; opacity: 0; animation: fadeUp 0.6s ease forwards; }
+    .value-card:nth-child(1) { animation-delay: 0.1s; }
+    .value-card:nth-child(2) { animation-delay: 0.2s; }
+    .value-card:nth-child(3) { animation-delay: 0.3s; }
+    .value-card:hover { transform: translateY(-10px); box-shadow: 0 12px 30px rgba(192,0,29,0.2); }
+    .value-icon { font-size: 3rem; color: var(--red); margin-bottom: 1rem; animation: float 6s ease-in-out infinite; }
+    .value-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; }
+    .value-text { color: var(--text2); line-height: 1.6; }
+    
+    /* REVEAL ANIMATION */
+    .reveal { opacity: 0; transform: translateY(32px) scale(0.98); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
+    
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      #hamburger { display: flex; }
+      .timeline::before { left: 30px; }
+      .timeline-item { width: 100%; margin-left: 0 !important; }
+      .timeline-content { margin-left: 60px; border-left: 4px solid var(--red) !important; border-right: none !important; }
+      .team-grid, .values-grid { grid-template-columns: repeat(2, 1fr); }
+      navbar { grid-template-columns: 1fr auto; padding: 0 1.5rem; }
+      section { padding: 50px 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .nav-logo-text strong { font-size: 0.9rem; }
+      .nav-logo-text span { font-size: 0.6rem; }
+      navbar { padding: 0 1rem; }
+      .hero-content { padding: 2rem 1rem; }
+      .hero-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); }
+      .hero-sub { font-size: 0.95rem; }
+      .team-grid, .values-grid { grid-template-columns: 1fr; }
+      .team-image { width: 150px; height: 150px; margin: 0 auto 1rem; }
+      .timeline-content { margin-left: 0; padding: 1.5rem 1rem; }
+      section { padding: 40px 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- FLOATY BACKGROUND ICONS -->
+  <div class="floaty-icon"><i class="fas fa-lightbulb"></i></div>
+  <div class="floaty-icon"><i class="fas fa-code"></i></div>
+  <div class="floaty-icon"><i class="fas fa-brain"></i></div>
+
+  <!-- NAVBAR -->
+  <navbar>
+    <a href="index.html" class="nav-logo">
+      <i class="fas fa-circle" style="font-size: 2rem; color: var(--red);"></i>
+      <div class="nav-logo-text">
+        <strong>Club Numérique</strong>
+        <span>IBanT</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="about.html">À Propos</a>
+      <a href="blog.html">Blog</a>
+      <a href="tutoriel.html">Tutoriels</a>
+      <a href="mediatheque.html">Médiatèque</a>
+    </div>
+    <div class="nav-actions">
+      <button id="theme-toggle" aria-label="Changer de thème"></button>
+      <button id="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </navbar>
+  <nav id="nav-mobile">
+    <a href="index.html">Accueil</a>
+    <a href="about.html">À Propos</a>
+    <a href="blog.html">Blog</a>
+    <a href="tutoriel.html">Tutoriels</a>
+    <a href="mediatheque.html">Médiatèque</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-content">
+      <div class="hero-badge"><i class="fas fa-info-circle"></i> Découvrez Notre Histoire</div>
+      <h1 class="hero-title">Notre Passion Pour la Technologie</h1>
+      <p class="hero-sub">Depuis 2020, le Club Numérique IBanT inspire et forme la prochaine génération de leaders technologiques en Afrique.</p>
+    </div>
+  </section>
+
+  <!-- MISSION & VISION -->
+  <section class="reveal">
+    <h2 class="section-title">Notre Mission & Vision</h2>
+    <div style="max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+      <div class="reveal">
+        <div style="background: var(--card-bg); padding: 2.5rem; border-radius: 12px; border-left: 4px solid var(--red);">
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-target" style="color: var(--red); font-size: 1.8rem;"></i> Mission
+          </h3>
+          <p style="color: var(--text2); line-height: 1.8;">Promouvoir la culture numérique et technologique, former les jeunes talents, et créer un écosystème d'innovation au service du développement africain.</p>
+        </div>
+      </div>
+      <div class="reveal">
+        <div style="background: var(--card-bg); padding: 2.5rem; border-radius: 12px; border-left: 4px solid var(--red);">
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-eye" style="color: var(--red); font-size: 1.8rem;"></i> Vision
+          </h3>
+          <p style="color: var(--text2); line-height: 1.8;">Être le leader incontournable de l'innovation technologique en Afrique de l'Ouest, créant des opportunités et transformant des vies par le numérique.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE (Histoire) -->
+  <section class="reveal" style="background: linear-gradient(180deg, rgba(192,0,29,0.05), transparent);">
+    <h2 class="section-title">Notre Parcours</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-year">2020</div>
+          <div class="timeline-desc"><strong>Fondation</strong> - Lancement du Club Numérique IBanT avec 15 membres fondateurs passionnés par la technologie.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-year">2021</div>
+          <div class="timeline-desc"><strong>Expansion</strong> - Croissance rapide avec 150+ membres et premiers bootcamps de programmation.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-year">2023</div>
+          <div class="timeline-desc"><strong>Reconnaissance</strong> - Prix d'excellence pour nos projets innovants et partenariats avec les grandes entreprises tech.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-year">2024</div>
+          <div class="timeline-desc"><strong>Innovation</strong> - Lancement de notre plateforme d'apprentissage et incubateur de startups technologiques.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOS VALEURS -->
+  <section class="reveal">
+    <h2 class="section-title">Nos Valeurs Fondamentales</h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon floating"><i class="fas fa-lightbulb"></i></div>
+        <h3 class="value-title">Innovation</h3>
+        <p class="value-text">Nous encourageons la créativité et l'innovation pour résoudre les défis du monde réel avec la technologie.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon floating-slow"><i class="fas fa-hands-helping"></i></div>
+        <h3 class="value-title">Collaboration</h3>
+        <p class="value-text">Ensemble, nous construisons une communauté solidaire où chacun contribue à la réussite collective.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon floating-fast"><i class="fas fa-graduation-cap"></i></div>
+        <h3 class="value-title">Formation</h3>
+        <p class="value-text">L'apprentissage continu est au cœur de notre mission pour développer les compétences de demain.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTRE ÉQUIPE -->
+  <section class="reveal" style="background: linear-gradient(180deg, rgba(192,0,29,0.05), transparent);">
+    <h2 class="section-title">Notre Équipe de Leaders</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" alt="Directeur" class="team-image">
+        <div class="team-name">Jean Dupont</div>
+        <div class="team-role">Directeur Exécutif</div>
+        <div class="team-bio">Visionnaire passionné avec 10 ans d'expérience dans l'innovation technologique.</div>
+      </div>
+      <div class="team-card">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80" alt="VP Technologie" class="team-image">
+        <div class="team-name">Marie Traore</div>
+        <div class="team-role">VP Technologie</div>
+        <div class="team-bio">Experte en architecture logicielle et développement de solutions scalables.</div>
+      </div>
+      <div class="team-card">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80" alt="Responsable Formation" class="team-image">
+        <div class="team-name">Amadou Sow</div>
+        <div class="team-role">Responsable Formation</div>
+        <div class="team-bio">Pédagogue brillant dédié à l'accompagnement et développement des talents.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section style="background: var(--card-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);" class="reveal">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
+      <div class="reveal">
+        <div style="font-size: 2.5rem; font-weight: 800; color: var(--red); margin-bottom: 0.5rem;">500+</div>
+        <div style="color: var(--text2); font-weight: 600;">Membres Actifs</div>
+      </div>
+      <div class="reveal">
+        <div style="font-size: 2.5rem; font-weight: 800; color: var(--red); margin-bottom: 0.5rem;">50+</div>
+        <div style="color: var(--text2); font-weight: 600;">Projets Réalisés</div>
+      </div>
+      <div class="reveal">
+        <div style="font-size: 2.5rem; font-weight: 800; color: var(--red); margin-bottom: 0.5rem;">25+</div>
+        <div style="color: var(--text2); font-weight: 600;">Partenaires</div>
+      </div>
+      <div class="reveal">
+        <div style="font-size: 2.5rem; font-weight: 800; color: var(--red); margin-bottom: 0.5rem;">100%</div>
+        <div style="color: var(--text2); font-weight: 600;">Taux de Satisfaction</div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // THEME TOGGLE
+    const setupThemeToggle = () => {
+      const toggleBtn = document.getElementById('theme-toggle');
+      const html = document.documentElement;
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      html.setAttribute('data-theme', savedTheme);
+      toggleBtn?.addEventListener('click', () => {
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupThemeToggle);
+    } else {
+      setupThemeToggle();
+    }
+
+    // HAMBURGER MENU
+    const initHamburger = () => {
+      const hamburger = document.getElementById('hamburger');
+      const navMobile = document.getElementById('nav-mobile');
+      if (!hamburger || !navMobile) return;
+      hamburger.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navMobile.classList.toggle('open');
+      });
+      navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        navMobile.classList.remove('open');
+      }));
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHamburger);
+    } else {
+      initHamburger();
+    }
+
+    // SCROLL REVEAL
+    const setupScrollReveal = () => {
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -15% 0px' });
+      reveals.forEach(r => observer.observe(r));
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupScrollReveal);
+    } else {
+      setupScrollReveal();
+    }
+  </script>
+</body>
+</html>

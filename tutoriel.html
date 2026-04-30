@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutoriels - Club Numérique IBanT</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --red: #c0001d;
+      --dark-red: #8b0013;
+      --bg: #f5f5f5;
+      --text: #1a1a1a;
+      --text2: #555;
+      --card-bg: #fff;
+      --border: #e0e0e0;
+      --transition: 0.3s ease;
+      --nav-h: 70px;
+    }
+    [data-theme="dark"] {
+      --bg: #0f0f0f;
+      --text: #fff;
+      --text2: #bbb;
+      --card-bg: #1a1a1a;
+      --border: #333;
+    }
+    html, body { width: 100%; height: 100%; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background var(--transition), color var(--transition); }
+    
+    /* NAVBAR */
+    navbar { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 2rem; height: var(--nav-h); padding: 0 3rem; background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 900; color: var(--red); }
+    .nav-logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-logo-text strong { font-size: 1rem; }
+    .nav-logo-text span { font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text2); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { color: var(--text); text-decoration: none; font-weight: 600; transition: color var(--transition); position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--red); transition: width var(--transition); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-actions { display: flex; align-items: center; gap: 1.5rem; }
+    #theme-toggle { width: 44px; height: 24px; background: rgba(255,255,255,0.2); border-radius: 12px; position: relative; border: 1px solid rgba(255,255,255,0.3); transition: background var(--transition); cursor: pointer; }
+    #theme-toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; background: #fff; border-radius: 50%; transition: transform var(--transition); }
+    [data-theme="dark"] #theme-toggle::after { transform: translateX(20px); }
+    #hamburger { display: none; flex-direction: column; gap: 5px; width: 32px; padding: 4px; background: none; border: none; cursor: pointer; }
+    #hamburger span { display: block; height: 2px; background: #fff; border-radius: 2px; transition: transform var(--transition), opacity var(--transition); }
+    #nav-mobile { display: none; position: absolute; top: var(--nav-h); left: 0; right: 0; background: var(--card-bg); border-bottom: 1px solid var(--border); flex-direction: column; padding: 1rem; gap: 0.5rem; }
+    #nav-mobile.open { display: flex; }
+    #nav-mobile a { color: var(--text); text-decoration: none; padding: 0.8rem 1rem; border-radius: 6px; transition: background var(--transition); }
+    #nav-mobile a:hover { background: rgba(192,0,29,0.1); }
+    
+    /* HERO */
+    #hero { padding-top: var(--nav-h); background: linear-gradient(135deg, rgba(139,0,19,0.7), rgba(15,15,15,0.7)), url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; color: #fff; padding-bottom: 80px; position: relative; overflow: hidden; }
+    #hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 50%, rgba(192,0,29,0.1), transparent), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05), transparent); pointer-events: none; }
+    .hero-content { max-width: 900px; margin: 0 auto; padding: 4rem; position: relative; z-index: 1; text-align: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 8px 18px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both; }
+    .hero-title { font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.05; margin-bottom: 1rem; animation: fadeUp 0.6s ease 0.1s both; }
+    .hero-sub { max-width: 720px; color: rgba(255,255,255,0.95); line-height: 1.75; margin: 0 auto; font-size: 1.05rem; animation: fadeUp 0.6s ease 0.2s both; }
+    
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes float { 0%, 100% { transform: translateY(0px) rotateZ(0deg); } 50% { transform: translateY(-20px) rotateZ(5deg); } }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    @keyframes glow { 0%, 100% { box-shadow: 0 0 20px rgba(192,0,29,0.3); } 50% { box-shadow: 0 0 30px rgba(192,0,29,0.6); } }
+    
+    /* FLOATY BACKGROUND */
+    .floaty-icon { position: fixed; pointer-events: none; font-size: 3rem; opacity: 0.1; }
+    .floaty-icon:nth-child(1) { top: 10%; left: 5%; animation: float 10s ease-in-out infinite; }
+    .floaty-icon:nth-child(2) { top: 45%; right: 5%; animation: float 12s ease-in-out infinite reverse; }
+    .floaty-icon:nth-child(3) { bottom: 15%; left: 8%; animation: float 14s ease-in-out infinite; }
+    
+    /* SECTIONS */
+    section { padding: 80px 3rem; }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 3rem; text-align: center; position: relative; }
+    .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background: var(--red); border-radius: 2px; }
+    
+    /* DIFFICULTY BADGE */
+    .difficulty { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .difficulty.beginner { background: rgba(76,175,80,0.2); color: #4caf50; }
+    .difficulty.intermediate { background: rgba(255,193,7,0.2); color: #ffc107; }
+    .difficulty.advanced { background: rgba(244,67,54,0.2); color: #f44336; }
+    
+    /* TUTORIALS GRID */
+    .tutorials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1400px; margin: 0 auto; }
+    
+    /* TUTORIAL CARD */
+    .tutorial-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease; border: 2px solid transparent; opacity: 0; animation: slideInUp 0.6s ease forwards; position: relative; }
+    .tutorial-card:nth-child(1) { animation-delay: 0.1s; }
+    .tutorial-card:nth-child(2) { animation-delay: 0.2s; }
+    .tutorial-card:nth-child(3) { animation-delay: 0.3s; }
+    .tutorial-card:nth-child(4) { animation-delay: 0.4s; }
+    .tutorial-card:nth-child(5) { animation-delay: 0.5s; }
+    .tutorial-card:nth-child(6) { animation-delay: 0.6s; }
+    .tutorial-card:hover { transform: translateY(-12px); box-shadow: 0 12px 30px rgba(192,0,29,0.25); border-color: var(--red); }
+    
+    .tutorial-image { width: 100%; height: 240px; object-fit: cover; transition: transform 0.5s ease; }
+    .tutorial-card:hover .tutorial-image { transform: scale(1.08); }
+    
+    .tutorial-badge { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.95); padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: #333; }
+    
+    .tutorial-content { padding: 2rem; }
+    .tutorial-category { color: var(--red); font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 6px; }
+    .tutorial-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.8rem; line-height: 1.4; color: var(--text); }
+    .tutorial-desc { color: var(--text2); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
+    
+    .tutorial-stats { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .tutorial-stat { display: flex; align-items: center; gap: 6px; color: var(--text2); }
+    .tutorial-stat i { color: var(--red); }
+    
+    .tutorial-footer { display: flex; justify-content: space-between; align-items: center; }
+    .cta-btn { background: var(--red); color: #fff; padding: 10px 20px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+    .cta-btn:hover { transform: translateX(4px); background: var(--dark-red); }
+    .progress-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--red), #ff5722); border-radius: 2px; width: 65%; }
+    
+    /* FILTERS */
+    .filter-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem; flex-wrap: wrap; }
+    .filter-btn { background: var(--card-bg); color: var(--text); border: 2px solid var(--border); padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
+    .filter-btn.active { background: var(--red); color: #fff; border-color: var(--red); }
+    .filter-btn:hover { border-color: var(--red); }
+    
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(32px) scale(0.98); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
+    
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      #hamburger { display: flex; }
+      .tutorials-grid { grid-template-columns: repeat(2, 1fr); }
+      navbar { grid-template-columns: 1fr auto; padding: 0 1.5rem; }
+      section { padding: 50px 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .nav-logo-text strong { font-size: 0.9rem; }
+      .nav-logo-text span { font-size: 0.6rem; }
+      navbar { padding: 0 1rem; }
+      .hero-content { padding: 2rem 1rem; }
+      .hero-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); }
+      .hero-sub { font-size: 0.95rem; }
+      .tutorials-grid { grid-template-columns: 1fr; }
+      .filter-buttons { gap: 0.5rem; }
+      .filter-btn { padding: 8px 14px; font-size: 0.85rem; }
+      .tutorial-stats { flex-wrap: wrap; }
+      section { padding: 40px 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- FLOATY BACKGROUND -->
+  <div class="floaty-icon"><i class="fas fa-graduation-cap"></i></div>
+  <div class="floaty-icon"><i class="fas fa-laptop-code"></i></div>
+  <div class="floaty-icon"><i class="fas fa-rocket"></i></div>
+
+  <!-- NAVBAR -->
+  <navbar>
+    <a href="index.html" class="nav-logo">
+      <i class="fas fa-circle" style="font-size: 2rem; color: var(--red);"></i>
+      <div class="nav-logo-text">
+        <strong>Club Numérique</strong>
+        <span>IBanT</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="about.html">À Propos</a>
+      <a href="blog.html">Blog</a>
+      <a href="tutoriel.html">Tutoriels</a>
+      <a href="mediatheque.html">Médiatèque</a>
+    </div>
+    <div class="nav-actions">
+      <button id="theme-toggle" aria-label="Changer de thème"></button>
+      <button id="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </navbar>
+  <nav id="nav-mobile">
+    <a href="index.html">Accueil</a>
+    <a href="about.html">À Propos</a>
+    <a href="blog.html">Blog</a>
+    <a href="tutoriel.html">Tutoriels</a>
+    <a href="mediatheque.html">Médiatèque</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-content">
+      <div class="hero-badge"><i class="fas fa-book-open"></i> Apprendre & Progresser</div>
+      <h1 class="hero-title">Tutoriels Interactifs</h1>
+      <p class="hero-sub">Maîtrisez les technologies modernes avec nos tutoriels pratiques, des débutants aux experts.</p>
+    </div>
+  </section>
+
+  <!-- TUTORIALS SECTION -->
+  <section class="reveal">
+    <h2 class="section-title">Nos Tutoriels</h2>
+    
+    <!-- Filter Buttons -->
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-filter="all">Tous</button>
+      <button class="filter-btn" data-filter="web">Web Dev</button>
+      <button class="filter-btn" data-filter="mobile">Mobile</button>
+      <button class="filter-btn" data-filter="ai">IA & ML</button>
+      <button class="filter-btn" data-filter="devops">DevOps</button>
+    </div>
+    
+    <!-- Tutorials Grid -->
+    <div class="tutorials-grid">
+      <!-- Tutorial 1 -->
+      <article class="tutorial-card reveal" data-category="web">
+        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80" alt="React" class="tutorial-image">
+        <span class="tutorial-badge">React</span>
+        <div class="tutorial-content">
+          <div class="tutorial-category"><i class="fas fa-code"></i> Web Development</div>
+          <h3 class="tutorial-title">React 18 - Le Complet</h3>
+          <p class="tutorial-desc">Maîtrisez les hooks, le state management et les bonnes pratiques de React moderne.</p>
+          <div class="tutorial-stats">
+            <div class="tutorial-stat"><i class="fas fa-video"></i> 24 vidéos</div>
+            <div class="tutorial-stat"><i class="fas fa-clock"></i> 12h</div>
+            <div class="difficulty beginner">Débutant</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill"></div></div>
+          <div style="margin-top: 1rem; margin-bottom: 1rem; text-align: center; color: var(--text2); font-size: 0.85rem;">Commencer</div>
+          <div class="tutorial-footer">
+            <button class="cta-btn"><i class="fas fa-play-circle"></i> Commencer</button>
+            <span style="font-size: 0.9rem; color: var(--text2);">⭐ 4.9/5</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Tutorial 2 -->
+      <article class="tutorial-card reveal" data-category="ai">
+        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80" alt="ML" class="tutorial-image">
+        <span class="tutorial-badge">Python</span>
+        <div class="tutorial-content">
+          <div class="tutorial-category"><i class="fas fa-brain"></i> IA & Machine Learning</div>
+          <h3 class="tutorial-title">Machine Learning Fondamentaux</h3>
+          <p class="tutorial-desc">Apprenez les bases du ML avec Python, scikit-learn et TensorFlow dans ce cours complet.</p>
+          <div class="tutorial-stats">
+            <div class="tutorial-stat"><i class="fas fa-video"></i> 32 vidéos</div>
+            <div class="tutorial-stat"><i class="fas fa-clock"></i> 18h</div>
+            <div class="difficulty intermediate">Intermédiaire</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 45%;"></div></div>
+          <div style="margin-top: 1rem; margin-bottom: 1rem; text-align: center; color: var(--text2); font-size: 0.85rem;">45% complété</div>
+          <div class="tutorial-footer">
+            <button class="cta-btn"><i class="fas fa-play-circle"></i> Continuer</button>
+            <span style="font-size: 0.9rem; color: var(--text2);">⭐ 4.8/5</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Tutorial 3 -->
+      <article class="tutorial-card reveal" data-category="mobile">
+        <img src="https://images.unsplash.com/photo-1611532736579-6b16e2b50449?auto=format&fit=crop&w=600&q=80" alt="Flutter" class="tutorial-image">
+        <span class="tutorial-badge">Flutter</span>
+        <div class="tutorial-content">
+          <div class="tutorial-category"><i class="fas fa-mobile"></i> Mobile Development</div>
+          <h3 class="tutorial-title">Flutter: Apps iOS & Android</h3>
+          <p class="tutorial-desc">Créez des applications mobiles performantes pour iOS et Android avec Flutter.</p>
+          <div class="tutorial-stats">
+            <div class="tutorial-stat"><i class="fas fa-video"></i> 28 vidéos</div>
+            <div class="tutorial-stat"><i class="fas fa-clock"></i> 16h</div>
+            <div class="difficulty intermediate">Intermédiaire</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 20%;"></div></div>
+          <div style="margin-top: 1rem; margin-bottom: 1rem; text-align: center; color: var(--text2); font-size: 0.85rem;">20% complété</div>
+          <div class="tutorial-footer">
+            <button class="cta-btn"><i class="fas fa-play-circle"></i> Continuer</button>
+            <span style="font-size: 0.9rem; color: var(--text2);">⭐ 4.7/5</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Tutorial 4 -->
+      <article class="tutorial-card reveal" data-category="devops">
+        <img src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?auto=format&fit=crop&w=600&q=80" alt="Docker" class="tutorial-image">
+        <span class="tutorial-badge">Docker</span>
+        <div class="tutorial-content">
+          <div class="tutorial-category"><i class="fas fa-cube"></i> DevOps & Cloud</div>
+          <h3 class="tutorial-title">Docker & Kubernetes Mastery</h3>
+          <p class="tutorial-desc">Déployez vos applications avec Docker, Kubernetes et les meilleures pratiques cloud.</p>
+          <div class="tutorial-stats">
+            <div class="tutorial-stat"><i class="fas fa-video"></i> 26 vidéos</div>
+            <div class="tutorial-stat"><i class="fas fa-clock"></i> 14h</div>
+            <div class="difficulty advanced">Avancé</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 0%; background: var(--red);"></div></div>
+          <div style="margin-top: 1rem; margin-bottom: 1rem; text-align: center; color: var(--text2); font-size: 0.85rem;">Non commencé</div>
+          <div class="tutorial-footer">
+            <button class="cta-btn"><i class="fas fa-play-circle"></i> Commencer</button>
+            <span style="font-size: 0.9rem; color: var(--text2);">⭐ 4.9/5</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Tutorial 5 -->
+      <article class="tutorial-card reveal" data-category="web">
+        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80" alt="Vue" class="tutorial-image">
+        <span class="tutorial-badge">Vue.js</span>
+        <div class="tutorial-content">
+          <div class="tutorial-category"><i class="fas fa-code"></i> Web Development</div>
+          <h3 class="tutorial-title">Vue 3 & Composition API</h3>
+          <p class="tutorial-desc">Construisez des interfaces web modernes et réactives avec Vue 3 et l'API Composition.</p>
+          <div class="tutorial-stats">
+            <div class="tutorial-stat"><i class="fas fa-video"></i> 22 vidéos</div>
+            <div class="tutorial-stat"><i class="fas fa-clock"></i> 11h</div>
+            <div class="difficulty intermediate">Intermédiaire</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
+          <div style="margin-top: 1rem; margin-bottom: 1rem; text-align: center; color: var(--text2); font-size: 0.85rem;">85% complété</div>
+          <div class="tutorial-footer">
+            <button class="cta-btn"><i class="fas fa-play-circle"></i> Continuer</button>
+            <span style="font-size: 0.9rem; color: var(--text2);">⭐ 4.6/5</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Tutorial 6 -->
+      <article class="tutorial-card reveal" data-category="ai">
+        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80" alt="NLP" class="tutorial-image">
+        <span class="tutorial-badge">NLP</span>
+        <div class="tutorial-content">
+          <div class="tutorial-category"><i class="fas fa-language"></i> IA & Machine Learning</div>
+          <h3 class="tutorial-title">Traitement Langage Naturel</h3>
+          <p class="tutorial-desc">Explorez le NLP avec transformers, BERT et créez des modèles de traitement de texte.</p>
+          <div class="tutorial-stats">
+            <div class="tutorial-stat"><i class="fas fa-video"></i> 30 vidéos</div>
+            <div class="tutorial-stat"><i class="fas fa-clock"></i> 16h</div>
+            <div class="difficulty advanced">Avancé</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 30%;"></div></div>
+          <div style="margin-top: 1rem; margin-bottom: 1rem; text-align: center; color: var(--text2); font-size: 0.85rem;">30% complété</div>
+          <div class="tutorial-footer">
+            <button class="cta-btn"><i class="fas fa-play-circle"></i> Continuer</button>
+            <span style="font-size: 0.9rem; color: var(--text2);">⭐ 4.8/5</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section style="background: linear-gradient(135deg, rgba(192,0,29,0.1), rgba(192,0,29,0.05)); text-align: center;" class="reveal">
+    <div class="reveal">
+      <h2 style="font-size: 2rem; margin-bottom: 1rem;">Prêt à Apprendre?</h2>
+      <p style="color: var(--text2); font-size: 1.1rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Accédez à tous nos tutoriels, vidéos et ressources pour devenir expert en technologie.</p>
+      <button style="background: var(--red); color: #fff; padding: 14px 32px; border-radius: 8px; border: none; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 10px;">
+        <i class="fas fa-sign-in-alt"></i> S'inscrire Gratuitement
+      </button>
+    </div>
+  </section>
+
+  <script>
+    // THEME TOGGLE
+    const setupThemeToggle = () => {
+      const toggleBtn = document.getElementById('theme-toggle');
+      const html = document.documentElement;
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      html.setAttribute('data-theme', savedTheme);
+      toggleBtn?.addEventListener('click', () => {
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupThemeToggle);
+    } else {
+      setupThemeToggle();
+    }
+
+    // HAMBURGER MENU
+    const initHamburger = () => {
+      const hamburger = document.getElementById('hamburger');
+      const navMobile = document.getElementById('nav-mobile');
+      if (!hamburger || !navMobile) return;
+      hamburger.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navMobile.classList.toggle('open');
+      });
+      navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        navMobile.classList.remove('open');
+      }));
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHamburger);
+    } else {
+      initHamburger();
+    }
+
+    // SCROLL REVEAL
+    const setupScrollReveal = () => {
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -15% 0px' });
+      reveals.forEach(r => observer.observe(r));
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupScrollReveal);
+    } else {
+      setupScrollReveal();
+    }
+
+    // FILTER FUNCTIONALITY
+    const setupFilters = () => {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.tutorial-card');
+      
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Remove active from all
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          const filter = btn.dataset.filter;
+          cards.forEach(card => {
+            if (filter === 'all' || card.dataset.category === filter) {
+              card.style.display = 'block';
+              setTimeout(() => card.style.opacity = '1', 10);
+            } else {
+              card.style.opacity = '0';
+              setTimeout(() => card.style.display = 'none', 300);
+            }
+          });
+        });
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupFilters);
+    } else {
+      setupFilters();
+    }
+  </script>
+</body>
+</html>
